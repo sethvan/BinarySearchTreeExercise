@@ -13,14 +13,12 @@ BinarySearchTreeSmart::BinarySearchTreeSmart(BinarySearchTreeSmart&& rhs) noexce
 };
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(const BinarySearchTreeSmart& rhs) {
-  std::unique_ptr<Node> temp = std::move(head);
   head = nullptr;
   copyTree(rhs.head.get());
   return *this;
 }
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(BinarySearchTreeSmart&& rhs) noexcept {
-  std::unique_ptr<Node> temp = std::move(head);
   head = std::move(rhs.head);
   rhs.head = nullptr;
   return *this;
