@@ -1,5 +1,4 @@
 //Raw version
-
 #ifndef _BINARY_SEARCH_TREE_
 #define _BINARY_SEARCH_TREE_
 #include <string>
@@ -19,7 +18,10 @@ class BinarySearchTree {
   void destroyNodes(Node* ptr);
   void traverse(Node* ptr, const std::string& order ) const;
   void copyTree(Node* rhsHead);
-  void removeNode(Node*, int n);
+  void removeNode(Node**, int n);
+  void calculateSize(Node* ptr);
+  int elementQty {};
+  
 
   public:
   BinarySearchTree() { head = nullptr; }
@@ -32,7 +34,10 @@ class BinarySearchTree {
   void displayTree(const std::string& order) const;
   void insert(int n);  
   bool contains(int n) const;
-  void remove(int n);
+  void erase(int n);
+  bool empty();
+  int size();
+  void clear();
 };
 
 #endif // Binary Search Tree
