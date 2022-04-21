@@ -28,7 +28,7 @@ int main() {
   int MAX = 1000;
   srand(time(0));
   BinarySearchTreeSmart tree0;
-  for(int i {}; i < 30; ++i) {
+  for(int i {}; i < 100; ++i) {
     tree0.insert(rand()%MAX + 1);
   }
 

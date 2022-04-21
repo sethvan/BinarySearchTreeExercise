@@ -19,6 +19,7 @@ class BinarySearchTree {
   void destroyNodes(Node* ptr);
   void traverse(Node* ptr, const std::string& order ) const;
   void copyTree(Node* rhsHead);
+  void removeNode(Node*, int n);
 
   public:
   BinarySearchTree() { head = nullptr; }
@@ -31,6 +32,7 @@ class BinarySearchTree {
   void displayTree(const std::string& order) const;
   void insert(int n);  
   bool contains(int n) const;
+  void remove(int n);
 };
 
 #endif // Binary Search Tree

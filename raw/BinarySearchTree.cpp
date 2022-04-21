@@ -67,6 +67,8 @@ void BinarySearchTree::insert(int n) {
   insertNode(&head, n);
 }
 
+
+
 bool BinarySearchTree::foundInList(Node* ptr, int n) const {
   if(ptr == nullptr) {    
     return false;
@@ -74,11 +76,9 @@ bool BinarySearchTree::foundInList(Node* ptr, int n) const {
     return true;
   } else {
     if (n < ptr->val) {
-      ptr = ptr->left;
-      return foundInList(ptr, n);
+      return foundInList(ptr->left, n);
     } else {
-      ptr = ptr->right;
-      return foundInList(ptr, n);
+      return foundInList(ptr->right, n);
     } 
   }
 }
@@ -127,3 +127,93 @@ void BinarySearchTree::traverse(Node* ptr, const std::string& order) const {
     }
   } 
 }
+
+void BinarySearchTree::remove(int n) {
+  if(!this->contains(n)) {
+    std::cout << "List does not contain number " << n << " to be removed." << std::endl;
+    return; 
+  }
+  if(head->val == n) {
+    Node* toBeRemoved = head;
+    if(!head->right) {
+      head = head->left;
+    } 
+    if(!head->right->left) {
+      head->right->left = head->left;
+      head = head->right;
+    } else {
+      head = head->right;
+      while(head->left->left) head = head->left;
+      Node* rwParent = head;
+      head = rwParent->left;
+      rwParent->left = head->right;
+      head->left = toBeRemoved->left;
+      head->right = toBeRemoved->right;
+    }
+    toBeRemoved->left = nullptr;
+    toBeRemoved->right = nullptr;
+    delete toBeRemoved;
+  } else {
+    removeNode(head, n);
+  }
+
+}
+
+void BinarySearchTree::removeNode(Node* ptr, int n ) {
+  if(ptr != nullptr) {
+
+  if(n < ptr->left->val) removeNode(ptr->left, n);
+  if(n > ptr->right->val) removeNode(ptr->right, n);
+
+  Node* tbrParent = ptr; // parent of node to be removed
+  Node* toBeRemoved;
+  Node* current;
+  Node* replacingWith;
+  bool left = true; // if node being removed is a left pointer or not
+
+  if(ptr->left->val == n) {
+    toBeRemoved = ptr->left;
+  } else {
+    toBeRemoved = ptr->right;
+    left = false;
+  }
+
+  current = toBeRemoved;
+
+  if(!current->right) {
+    replacingWith = current->left;
+    if(left) {      
+        tbrParent->left = replacingWith;
+      } else {
+        tbrParent->right = replacingWith;
+      }    
+   
+  } else {
+    if(!current->right->left) {
+      replacingWith = current->right;
+      replacingWith->left = toBeRemoved->left;
+      if(left) {      
+        tbrParent->left = replacingWith;
+      } else {
+        tbrParent->right = replacingWith;
+      }    
+    } else {
+      current = current->right;
+      while(current->left->left) current = current->left;
+      Node* rwParent = current;//parent of replacingWith
+      replacingWith = rwParent->left;
+      rwParent->left = replacingWith->right;
+      replacingWith->left = toBeRemoved->left;
+      replacingWith->right = toBeRemoved->right;
+      if(left) {      
+        tbrParent->left = replacingWith;
+      } else {
+        tbrParent->right = replacingWith;
+      }    
+    }  
+  }
+  toBeRemoved->left = nullptr;
+  toBeRemoved->right = nullptr;
+  delete toBeRemoved;
+  }
+} 
