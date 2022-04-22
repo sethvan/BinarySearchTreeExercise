@@ -128,15 +128,12 @@ void BinarySearchTree::traverse(Node* ptr, const std::string& order) const {
 }
 
 void BinarySearchTree::erase(int n) {
-  if(this->empty()) return;
   std::unique_ptr<lookupResult> s = foundInList(head, head, n, true); 
   if(s == nullptr) return;
 
-  Node* current, *replacingWith, *toBeRemoved, *rwParent;
-
-  toBeRemoved = head->val == n? head : s->node;
-  current = toBeRemoved;
-
+  Node* toBeRemoved = head->val == n? head : s->node;
+  Node* current = toBeRemoved;
+  Node* replacingWith = nullptr;
   auto leftOrRight = [&](){
     if(s->left) {      
       s->parent->left = replacingWith;
@@ -146,9 +143,8 @@ void BinarySearchTree::erase(int n) {
   };
  
   if(!current->right && !current->left) {
-    replacingWith = nullptr;
     if(head->val != n) leftOrRight();
-    if(toBeRemoved) delete toBeRemoved;
+    delete toBeRemoved;
     return;
   } else if(!current->right) {
     replacingWith = current->left;
@@ -159,7 +155,7 @@ void BinarySearchTree::erase(int n) {
     } else {
       current = current->right;
       while(current->left->left) current = current->left;
-      rwParent = current;//parent of replacingWith
+      Node* rwParent = current;//parent of replacingWith
       replacingWith = rwParent->left;
       rwParent->left = replacingWith->right;
       replacingWith->left = toBeRemoved->left;
@@ -173,8 +169,7 @@ void BinarySearchTree::erase(int n) {
 
   toBeRemoved->left = nullptr;
   toBeRemoved->right = nullptr;
-  if(toBeRemoved) delete toBeRemoved;
-  
+  delete toBeRemoved;  
 }
 
 bool BinarySearchTree::empty() {
