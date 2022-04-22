@@ -2,6 +2,7 @@
 #ifndef _BINARY_SEARCH_TREE_
 #define _BINARY_SEARCH_TREE_
 #include <string>
+#include <memory>
 
 class BinarySearchTree {
 
@@ -11,16 +12,22 @@ class BinarySearchTree {
     Node* right;
   };
 
+  struct lookupResult {
+    Node* node;
+    Node* parent;
+    bool left;
+  };
+
   private:
   Node* head;
   void insertNode(Node** ptr, int n);
-  bool foundInList(Node* ptr, int n) const;
+  std::unique_ptr<lookupResult> foundInList(Node* parent, Node* node, int n, bool left);
   void destroyNodes(Node* ptr);
   void traverse(Node* ptr, const std::string& order ) const;
   void copyTree(Node* rhsHead);
-  void removeNode(Node**, int n);
   void calculateSize(Node* ptr);
   int elementQty {};
+  
   
 
   public:
@@ -33,7 +40,7 @@ class BinarySearchTree {
 
   void displayTree(const std::string& order) const;
   void insert(int n);  
-  bool contains(int n) const;
+  bool contains(int n);
   void erase(int n);
   bool empty();
   int size();

@@ -31,7 +31,7 @@ public:
 
 int main(){
 
-  int MAX = 1000000000;//random number range
+  int MAX = 100000000;//random number range
   int INSERT_ITERATIONS = 10000000;
   int REMOVE_ITERATIONS = 8000000; 
   srand(time(0));
@@ -70,7 +70,7 @@ int main(){
 
   Timer t3;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    tree0.erase(rand()%MAX + 1);    
+    tree0.erase(rand()%MAX + 1);     
   }
   auto timeElapsed3 = t3.elapsed();
 
@@ -80,7 +80,7 @@ int main(){
   
   Timer t4;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    setTree.erase(rand()%MAX + 1);    
+    setTree.erase(rand()%MAX + 1);  
   }
   auto timeElapsed4 = t4.elapsed();
 
