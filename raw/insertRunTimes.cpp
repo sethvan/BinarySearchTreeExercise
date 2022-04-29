@@ -33,21 +33,21 @@ public:
 
 int main(){
 
-  int MAX = 2000000;//random number range
-  int INSERT_ITERATIONS = 2000000;
-  int REMOVE_ITERATIONS = 1000000; 
+  int MAX = 6000000;//random number range
+  int INSERT_ITERATIONS = 6000000;
+  int REMOVE_ITERATIONS = 3000000; 
   srand(time(0));
 
-  // Timer t;
-  // BinarySearchTree tree0;
-  // for(int i {}; i < INSERT_ITERATIONS; ++i) {
-  //   tree0.insert(rand()%MAX + 1);
-  // }
-  // auto timeElapsed = t.elapsed();
+  Timer t;
+  BinarySearchTree tree0;
+  for(int i {}; i < INSERT_ITERATIONS; ++i) {
+    tree0.insert(rand()%MAX + 1);
+  }
+  auto timeElapsed = t.elapsed();
   
-  // std::cout << "\n" << timeElapsed << " seconds have elapsed for the raw binary search tree to insert " 
-  //           << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  // std::cout << "Size of raw binary search tree = " << tree0.size() << std::endl;
+  std::cout << "\n" << timeElapsed << " seconds have elapsed for the raw binary search tree to insert " 
+            << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  std::cout << "Size of raw binary search tree = " << tree0.size() << std::endl;
   //tree0.displayTree("elementsOnly");
   
   // Timer t1;
@@ -105,26 +105,26 @@ int main(){
   //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   // std::cout << "Size of setTree after deletions = " << setTree.size() << "."<< std::endl;
 
-  Timer t10;
-  for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    vecTree.erase(rand()%MAX + 1);  
-  }
-  auto timeElapsed10 = t10.elapsed();
+  // Timer t10;
+  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+  //   vecTree.erase(rand()%MAX + 1);  
+  // }
+  // auto timeElapsed10 = t10.elapsed();
 
-  std::cout << "\n" << timeElapsed10 << " seconds have elapsed for the vecTree to erase " 
-            << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of vecTree after deletions = " << vecTree.size() << ".\n\n"<< std::endl;
+  // std::cout << "\n" << timeElapsed10 << " seconds have elapsed for the vecTree to erase " 
+  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of vecTree after deletions = " << vecTree.size() << ".\n\n"<< std::endl;
   //vecTree.displayTree("elementsOnly");
 
-  // Timer t5;
-  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-  //   auto found = tree0.contains(rand()%MAX + 1);     
-  // }
-  // auto timeElapsed5 = t5.elapsed();
+  Timer t5;
+  for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+    auto found = tree0.contains(rand()%MAX + 1);     
+  }
+  auto timeElapsed5 = t5.elapsed();
 
-  // std::cout << "\n" << timeElapsed5 << " seconds have elapsed for the raw binary search tree to search for " 
-  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  // std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
+  std::cout << "\n" << timeElapsed5 << " seconds have elapsed for the raw binary search tree to search for " 
+            << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
   
   // Timer t6;
   // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
@@ -146,15 +146,15 @@ int main(){
   //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   // std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
 
-  //  Timer t9;
-  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-  //   auto found = vecTree.contains(rand()%MAX + 1);     
-  // }
-  // auto timeElapsed9 = t9.elapsed();
+   Timer t9;
+  for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+    auto found = vecTree.contains(rand()%MAX + 1);     
+  }
+  auto timeElapsed9 = t9.elapsed();
 
-  // std::cout << "\n" << timeElapsed9 << " seconds have elapsed for the vecTree to search for " 
-  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  // std::cout << "Size of vecTree = " << vecTree.size() << "." << std::endl;
+  std::cout << "\n" << timeElapsed9 << " seconds have elapsed for the vecTree to search for " 
+            << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  std::cout << "Size of vecTree = " << vecTree.size() << "." << std::endl;
   
   
   return 0;

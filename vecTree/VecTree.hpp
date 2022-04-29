@@ -42,9 +42,9 @@ class VecTree
 
 
    public:
-      VecTree() { head = -1; children.reserve(20000000);}
+      VecTree() { head = -1; /*children.reserve(20000000);*/}
       void insert(const T& element_data);
-      bool contains(const T& element_data) const;
+      bool contains(const T& element_data) const
       bool empty() const;
       int size() const;
       void clear();      
@@ -80,8 +80,7 @@ void VecTree<T>::displayTree(const std::string& order) const {
 
 template <typename T>
 bool VecTree<T>::contains(const T& element_data) const {
-  int searchResult = foundIndex(head, element_data);
-  return searchResult != -1;
+  return foundIndex(head, element_data) != -1;
 }
 
 template <typename T>
@@ -101,6 +100,15 @@ int VecTree<T>::foundIndex(int index, const T& element_data) const {
       throw std::out_of_range("******Index in foundIndex() out of range!!!!******");      
     return foundIndex(children[index].right, element_data);
   }      
+}
+
+template <typename T>
+void VecTree<T>::insert(const T& element_data) {
+  if(head != -1) 
+    insertNode(element_data, head);
+  else 
+    children.emplace_back(-1, element_data);
+    head = 0;
 }
 
 template <typename T>
@@ -217,15 +225,6 @@ void VecTree<T>::erase(const T& element_data) {
   else
     head = replacingWith;
   deleteElement();  
-}
-
-template <typename T>
-void VecTree<T>::insert(const T& element_data) {
-  if(head != -1) 
-    insertNode(element_data, head);
-  else 
-    children.emplace_back(-1, element_data);
-    head = 0;
 }
 
 template <typename T>
