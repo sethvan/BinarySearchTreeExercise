@@ -105,9 +105,12 @@ template <typename T>
 void VecTree<T>::insert(const T& element_data) {
   if(head != -1) 
     insertNode(element_data, head);
-  else 
+  else
+  {
     children.emplace_back(-1, element_data);
     head = 0;
+  } 
+    
 }
 
 template <typename T>
