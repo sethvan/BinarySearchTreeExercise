@@ -67,11 +67,11 @@ void BinarySearchTree::insert(int n) {
   insertNode(&head, n);
 }
 
-std::unique_ptr<BinarySearchTree::lookupResult> BinarySearchTree::foundInList(Node* parent, Node* node, int n, bool left) {
+std::optional<BinarySearchTree::lookupResult> BinarySearchTree::foundInList(Node* parent, Node* node, int n, bool left) {
   if(node == nullptr) {    
-    return nullptr;
+    return std::nullopt;
   } else if(node->val == n) {
-    return std::make_unique<BinarySearchTree::lookupResult>(node, parent, left);
+    return std::optional<BinarySearchTree::lookupResult>{{node, parent, left}};
   } else {
     if (n < node->val) {
       return foundInList(node, node->left, n, true);
@@ -82,8 +82,8 @@ std::unique_ptr<BinarySearchTree::lookupResult> BinarySearchTree::foundInList(No
 }
 
 bool BinarySearchTree::contains(int n) {
-  std::unique_ptr<BinarySearchTree::lookupResult> ptr = foundInList(head, head, n, true); 
-  return ptr != nullptr;
+  auto s = foundInList(head, head, n, true); 
+  return s != std::nullopt;
 }
 
 void BinarySearchTree::displayTree(const std::string& order) const {
@@ -128,8 +128,8 @@ void BinarySearchTree::traverse(Node* ptr, const std::string& order) const {
 }
 
 void BinarySearchTree::erase(int n) {
-  std::unique_ptr<lookupResult> s = foundInList(head, head, n, true); 
-  if(s == nullptr) return;
+  std::optional<lookupResult> s = foundInList(head, head, n, true); 
+  if(!s) return;
 
   Node* toBeRemoved = head->val == n? head : s->node;
   Node* current = toBeRemoved;

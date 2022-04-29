@@ -4,6 +4,8 @@
 #include <chrono>
 #include <set>
 #include "../smart/BinarySearchTreeSmart.hpp"
+#include "../vecTree/VecTree.hpp"
+
 
 
 //took this class from a google search :)
@@ -31,32 +33,33 @@ public:
 
 int main(){
 
-  int MAX = 20000000;//random number range
+  int MAX = 2000000;//random number range
   int INSERT_ITERATIONS = 2000000;
-  int REMOVE_ITERATIONS = 1600000; 
+  int REMOVE_ITERATIONS = 1000000; 
   srand(time(0));
 
-  Timer t;
-  BinarySearchTree tree0;
-  for(int i {}; i < INSERT_ITERATIONS; ++i) {
-    tree0.insert(rand()%MAX + 1);
-  }
-  auto timeElapsed = t.elapsed();
+  // Timer t;
+  // BinarySearchTree tree0;
+  // for(int i {}; i < INSERT_ITERATIONS; ++i) {
+  //   tree0.insert(rand()%MAX + 1);
+  // }
+  // auto timeElapsed = t.elapsed();
   
-  std::cout << "\n" << timeElapsed << " seconds have elapsed for the raw binary search tree to insert " 
-            << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of raw binary search tree = " << tree0.size() << std::endl;
+  // std::cout << "\n" << timeElapsed << " seconds have elapsed for the raw binary search tree to insert " 
+  //           << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of raw binary search tree = " << tree0.size() << std::endl;
+  //tree0.displayTree("elementsOnly");
   
-  Timer t1;
-  std::set<int> setTree;
-  for(int i {}; i < INSERT_ITERATIONS; ++i) {
-    setTree.insert(rand()%MAX + 1);
-  }
-  auto timeElapsed1 = t1.elapsed();
+  // Timer t1;
+  // std::set<int> setTree;
+  // for(int i {}; i < INSERT_ITERATIONS; ++i) {
+  //   setTree.insert(rand()%MAX + 1);
+  // }
+  // auto timeElapsed1 = t1.elapsed();
   
-  std::cout << "\n" << timeElapsed1 << " seconds have elapsed for the std::set<int> to insert " 
-            << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of std::set<int> = " << setTree.size() << std::endl;
+  // std::cout << "\n" << timeElapsed1 << " seconds have elapsed for the std::set<int> to insert " 
+  //           << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of std::set<int> = " << setTree.size() << std::endl;
 
   // Timer t2;
   // BinarySearchTreeSmart tree1;
@@ -65,8 +68,22 @@ int main(){
   // }
   // auto timeElapsed2 = t2.elapsed();
   
-  // std::cout << "\n" << timeElapsed << " seconds have elapsed for the smart binary search tree to insert " 
+  // std::cout << "\n" << timeElapsed2 << " seconds have elapsed for the smart binary search tree to insert " 
   //           << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  //std::cout << "Size of smart binary search tree = " << tree1.size() << std::endl;
+  //tree1.displayTree("elementsOnly");
+  
+  Timer t8;
+  VecTree<int> vecTree;
+  for(int i {}; i < INSERT_ITERATIONS; ++i) {
+    vecTree.insert(rand()%MAX + 1);
+  }
+  auto timeElapsed8 = t8.elapsed();
+  
+  std::cout << "\n" << timeElapsed8 << " seconds have elapsed for the vecTree to insert " 
+            << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  std::cout << "Size of vecTree = " << vecTree.size() << std::endl;
+  //vecTree.displayTree("elementsOnly");
 
   // Timer t3;
   // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
@@ -86,27 +103,59 @@ int main(){
 
   // std::cout << "\n" << timeElapsed4 << " seconds have elapsed for the setTree to erase " 
   //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  // std::cout << "Size of setTree after deletions = " << setTree.size() << ".\n\n"<< std::endl;
+  // std::cout << "Size of setTree after deletions = " << setTree.size() << "."<< std::endl;
 
-  Timer t5;
+  Timer t10;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = tree0.contains(rand()%MAX + 1);     
+    vecTree.erase(rand()%MAX + 1);  
   }
-  auto timeElapsed5 = t5.elapsed();
+  auto timeElapsed10 = t10.elapsed();
 
-  std::cout << "\n" << timeElapsed5 << " seconds have elapsed for the raw binary search tree to search for " 
+  std::cout << "\n" << timeElapsed10 << " seconds have elapsed for the vecTree to erase " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
+  std::cout << "Size of vecTree after deletions = " << vecTree.size() << ".\n\n"<< std::endl;
+  //vecTree.displayTree("elementsOnly");
+
+  // Timer t5;
+  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+  //   auto found = tree0.contains(rand()%MAX + 1);     
+  // }
+  // auto timeElapsed5 = t5.elapsed();
+
+  // std::cout << "\n" << timeElapsed5 << " seconds have elapsed for the raw binary search tree to search for " 
+  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
   
-  Timer t6;
-  for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = setTree.contains(rand()%MAX + 1);  
-  }
-  auto timeElapsed6 = t6.elapsed();
+  // Timer t6;
+  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+  //   auto found = setTree.contains(rand()%MAX + 1);  
+  // }
+  // auto timeElapsed6 = t6.elapsed();
 
-  std::cout << "\n" << timeElapsed6 << " seconds have elapsed for the setTree to search for " 
-            << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of setTree after = " << setTree.size() << ".\n\n"<< std::endl;
+  // std::cout << "\n" << timeElapsed6 << " seconds have elapsed for the setTree to search for " 
+  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of setTree after = " << setTree.size() << "."<< std::endl;
+
+  // Timer t7;
+  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+  //   auto found = tree1.contains(rand()%MAX + 1);     
+  // }
+  // auto timeElapsed7 = t7.elapsed();
+
+  // std::cout << "\n" << timeElapsed7 << " seconds have elapsed for the smart binary search tree to search for " 
+  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
+
+  //  Timer t9;
+  // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
+  //   auto found = vecTree.contains(rand()%MAX + 1);     
+  // }
+  // auto timeElapsed9 = t9.elapsed();
+
+  // std::cout << "\n" << timeElapsed9 << " seconds have elapsed for the vecTree to search for " 
+  //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  // std::cout << "Size of vecTree = " << vecTree.size() << "." << std::endl;
+  
   
   return 0;
 
