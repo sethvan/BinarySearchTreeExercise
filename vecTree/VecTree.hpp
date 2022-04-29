@@ -38,13 +38,12 @@ class VecTree
       void insertNode(const T& element_data, int index);
       int foundIndex(int index, const T& element_data) const;
       void traverse(int index, const std::string& order ) const;
-      //void deleteVecElement(int index);
 
 
    public:
       VecTree() { head = -1; /*children.reserve(20000000);*/}
       void insert(const T& element_data);
-      bool contains(const T& element_data) const
+      bool contains(const T& element_data) const;
       bool empty() const;
       int size() const;
       void clear();      
