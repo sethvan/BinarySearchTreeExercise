@@ -144,7 +144,6 @@ int main(){
 
   std::cout << "\n" << timeElapsed7 << " seconds have elapsed for the smart binary search tree to search for " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
-  std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
 
    Timer t9;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
