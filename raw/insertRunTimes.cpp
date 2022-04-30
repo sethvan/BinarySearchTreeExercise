@@ -116,44 +116,53 @@ int main(){
   // std::cout << "Size of vecTree after deletions = " << vecTree.size() << ".\n\n"<< std::endl;
   //vecTree.displayTree("elementsOnly");
 
+  int foundInRaw {};
+  bool found;
   Timer t5;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = tree0.contains(rand()%MAX + 1);     
+    if ((found = tree0.contains(rand()%MAX + 1))) ++foundInRaw;     
   }
   auto timeElapsed5 = t5.elapsed();
 
   std::cout << "\n" << timeElapsed5 << " seconds have elapsed for the raw binary search tree to search for " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   std::cout << "Size of raw binary search tree = " << tree0.size() << "." << std::endl;
+  std::cout << foundInRaw << " elements were found and " << REMOVE_ITERATIONS-foundInRaw << " were not found in the raw binary search tree" << std::endl;
   
+  int foundInSet {};
   Timer t6;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = setTree.contains(rand()%MAX + 1);  
+    if( setTree.contains(rand()%MAX + 1) ) ++foundInSet;    
   }
   auto timeElapsed6 = t6.elapsed();
 
   std::cout << "\n" << timeElapsed6 << " seconds have elapsed for the setTree to search for " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   std::cout << "Size of setTree after = " << setTree.size() << "."<< std::endl;
+  std::cout << foundInSet << " elements were found and " << REMOVE_ITERATIONS-foundInSet << " were not found in the setTree" << std::endl;
 
+  int foundInSmart {};
   Timer t7;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = tree1.contains(rand()%MAX + 1);     
+    if( tree1.contains(rand()%MAX + 1) ) ++foundInSmart;    
   }
   auto timeElapsed7 = t7.elapsed();
 
   std::cout << "\n" << timeElapsed7 << " seconds have elapsed for the smart binary search tree to search for " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
+  std::cout << foundInSmart << " elements were found and " << REMOVE_ITERATIONS-foundInSmart << " were not found in the smart binary search tree" << std::endl;
 
-   Timer t9;
+  int foundInVec {};
+  Timer t9;
   for(int i {}; i < REMOVE_ITERATIONS; ++i) {
-    auto found = vecTree.contains(rand()%MAX + 1);     
+    if( vecTree.contains(rand()%MAX + 1) ) ++foundInVec;     
   }
   auto timeElapsed9 = t9.elapsed();
 
   std::cout << "\n" << timeElapsed9 << " seconds have elapsed for the vecTree to search for " 
             << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   std::cout << "Size of vecTree = " << vecTree.size() << "." << std::endl;
+  std::cout << foundInVec << " elements were found and " << REMOVE_ITERATIONS-foundInVec << " were not found in the vecTree" << std::endl;
   
   
   return 0;
