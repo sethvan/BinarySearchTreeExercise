@@ -13,7 +13,7 @@ class VecTree
    struct Node
    {
       int parent;
-      std::unique_ptr<T> data;
+      T data;
       int left;
       int right;
       
@@ -21,7 +21,7 @@ class VecTree
       : parent{rhs.parent}, data{std::move(rhs.data)}, left{rhs.left}, right{rhs.right} {}
 
       Node(int parent, const T& element_data) 
-      : parent {parent}, data{std::make_unique<T>(element_data)}, 
+      : parent {parent}, data{element_data}, 
         left{-1}, right{-1} {}   
       Node& operator=(Node &&rhs) noexcept {
         parent = rhs.parent;
@@ -63,13 +63,7 @@ void VecTree<T>::clear() {
 
 template <typename T>
 int VecTree<T>::size() const {
-  if(children.size() == 0) return 0;
-
-  int size {};
-  for(const auto& node: children)
-    if(node.data)
-      ++size;
-  return size;
+  return children.size();
 }
 
 template <typename T>
@@ -85,9 +79,9 @@ bool VecTree<T>::contains(const T& element_data) const {
 template <typename T>
 int VecTree<T>::foundIndex(int index, const T& element_data) const {
   if(index == -1) return -1;     
-  else if(element_data == *(children[index].data))
+  else if(element_data == children[index].data)
     return index;
-  else if(element_data < *(children[index].data))
+  else if(element_data < children[index].data)
   {
     if(children[index].left != -1 && children[index].left > children.size()-1)
       throw std::out_of_range("******Index in foundIndex() out of range!!!!******");      
@@ -117,7 +111,7 @@ template <typename T>
 void VecTree<T>::insertNode(const T& element_data, int index) {
   int num, childIndex;
 
-  if (element_data < *(children[index].data)) 
+  if (element_data < children[index].data) 
   {
     num = children[index].left;
     if(num != -1) 
@@ -129,7 +123,7 @@ void VecTree<T>::insertNode(const T& element_data, int index) {
       children[index].left = childIndex;
     }
   } 
-  else if (element_data > *(children[index].data))
+  else if (element_data > children[index].data)
     {
       num = children[index].right;
       if(num != -1)  
@@ -151,7 +145,7 @@ void VecTree<T>::erase(const T& element_data) {
   int toBeRemoved = foundIndex(head, element_data);
   if(toBeRemoved == -1) return;
 
-  if(*(children[toBeRemoved].data) != element_data)
+  if(children[toBeRemoved].data != element_data)
     throw std::runtime_error("**********foundIndex() has provided an incorrect index!!!!**********");
  
   int current = toBeRemoved;
