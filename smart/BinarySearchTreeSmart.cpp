@@ -83,7 +83,7 @@ bool BinarySearchTreeSmart::contains(int n) const {
   return foundInList(head.get(), n);
 }
 
-void BinarySearchTreeSmart::displayTree(const std::string& order) const {
+void BinarySearchTreeSmart::displayTree(BinarySearchTreeSmart::Order order) const {
   if(!head) {
     std::cout << "Node equals nullptr\n";
     return;
@@ -91,30 +91,30 @@ void BinarySearchTreeSmart::displayTree(const std::string& order) const {
   traverse(head.get(), order);
 }
 
-void BinarySearchTreeSmart::traverse(Node* ptr, const std::string& order) const {
+void BinarySearchTreeSmart::traverse(Node* ptr, BinarySearchTreeSmart::Order order) const {
   
-  if ( order == "inOrder" ) {
+  if ( order == inOrder ) {
     if(ptr){
     traverse(ptr->left.get(), order);
     std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
     traverse(ptr->right.get(), order);
     }
-  } else if ( order == "preOrder") {
+  } else if ( order == preOrder) {
     if(ptr){
     std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
     traverse(ptr->left.get(), order);
     traverse(ptr->right.get(), order);
     }
-  } else if ( order == "postOrder") {
+  } else if ( order == postOrder) {
     if(ptr){
     traverse(ptr->left.get(), order);
     traverse(ptr->right.get(), order);
     std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
     }
-  } else if ( order == "elementsOnly" ) {
+  } else if ( order == elementsOnly ) {
     if(ptr){
     traverse(ptr->left.get(), order);
     std::cout << ptr->val << ", ";

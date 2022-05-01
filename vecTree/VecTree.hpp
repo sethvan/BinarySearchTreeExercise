@@ -31,24 +31,30 @@ class VecTree
         return *this;
       }
    };
+   
+   public:
+   enum Order {inOrder, preOrder, postOrder, elementsOnly};
 
    private:
       int head;
       std::vector<Node> children;
       void insertNode(const T& element_data, int index);
       int foundIndex(int index, const T& element_data) const;
-      void traverse(int index, const std::string& order ) const;
+      void traverse(int index, Order order ) const;
 
 
    public:
+      
       VecTree() { head = -1; /*children.reserve(20000000);*/}
       void insert(const T& element_data);
       bool contains(const T& element_data) const;
       bool empty() const;
       int size() const;
       void clear();      
-      void displayTree(const std::string& order) const;
+      void displayTree(Order order) const;
       void erase(const T& element_data);
+      
+      
 };
 
 template <typename T>
@@ -67,7 +73,7 @@ int VecTree<T>::size() const {
 }
 
 template <typename T>
-void VecTree<T>::displayTree(const std::string& order) const {
+void VecTree<T>::displayTree(VecTree<T>::Order order) const {
   traverse(head, order);
 }
 
@@ -83,13 +89,13 @@ int VecTree<T>::foundIndex(int index, const T& element_data) const {
     return index;
   else if(element_data < children[index].data)
   {
-    if(children[index].left != -1 && children[index].left > children.size()-1)
+    if(children[index].left != -1 && children[index].left > static_cast<int>(children.size()-1))
       throw std::out_of_range("******Index in foundIndex() out of range!!!!******");      
     return foundIndex(children[index].left, element_data);
   }      
   else
   {
-    if(children[index].right != -1 && children[index].right > children.size()-1)
+    if(children[index].right != -1 && children[index].right > static_cast<int>(children.size()-1))
       throw std::out_of_range("******Index in foundIndex() out of range!!!!******");      
     return foundIndex(children[index].right, element_data);
   }      
@@ -224,44 +230,44 @@ void VecTree<T>::erase(const T& element_data) {
 }
 
 template <typename T>
-void VecTree<T>::traverse(int index, const std::string& order ) const {
+void VecTree<T>::traverse(int index, VecTree<T>::Order order ) const {
   if(!size())
   {
     std::cout << "Tree empty!" << std::endl;
     return;
   }
   auto printNodeValues = [&](){
-    std::cout << *(children[index].data) << ", ";
-    if(children[index].left != -1) std::cout << *(children[children[index].left].data) << ", ";
+    std::cout << children[index].data << ", ";
+    if(children[index].left != -1) std::cout << children[children[index].left].data << ", ";
     else std::cout << "NULL" << ", ";
-    if(children[index].right != -1) std::cout << *(children[children[index].right].data) << std::endl;
+    if(children[index].right != -1) std::cout << children[children[index].right].data << std::endl;
     else std::cout << "NULL" << ", " << std::endl;
   };
 
   if(index != -1) 
   {
-    if ( order == "inOrder" ) 
+    if ( order == inOrder) 
     {
       traverse(children[index].left, order);
       printNodeValues();
       traverse(children[index].right, order);
     } 
-    else if ( order == "preOrder") 
+    else if ( order == preOrder) 
     {
       printNodeValues();
       traverse(children[index].left, order);
       traverse(children[index].right, order);
     } 
-    else if ( order == "postOrder") 
+    else if ( order == postOrder) 
     {
       traverse(children[index].left, order);
       traverse(children[index].right, order);
       printNodeValues();   
     } 
-    else if ( order == "elementsOnly" ) 
+    else if ( order == elementsOnly ) 
     {
       traverse(children[index].left, order);
-      std::cout << *(children[index].data) << ", ";
+      std::cout << children[index].data << ", ";
       traverse(children[index].right, order);
     } 
   }

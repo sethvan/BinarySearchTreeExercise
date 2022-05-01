@@ -12,12 +12,15 @@ class BinarySearchTreeSmart {
     std::unique_ptr<Node> right;
   };
 
+  public:
+  enum Order {inOrder, preOrder, postOrder, elementsOnly};
+
   private:
   std::unique_ptr<Node> head;
   void insertNode(std::unique_ptr<Node>* ptr, int n);
   bool foundInList(Node* ptr, int n) const;
   void destroyNodes(std::unique_ptr<Node> ptr);
-  void traverse(Node* ptr, const std::string& order ) const;
+  void traverse(Node* ptr, const Order order ) const;
   void copyTree(Node* rhsHead);
 
   public:
@@ -28,7 +31,7 @@ class BinarySearchTreeSmart {
   BinarySearchTreeSmart& operator=(const BinarySearchTreeSmart& rhs);
   BinarySearchTreeSmart& operator=(BinarySearchTreeSmart&& rhs) noexcept;
 
-  void displayTree(const std::string& order) const;
+  void displayTree(const Order order) const;
   void insert(int n);  
   bool contains(int n) const;
 };

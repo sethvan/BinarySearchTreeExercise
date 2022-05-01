@@ -23,7 +23,7 @@ int main() {
   std::cout << "tree.empty() = " << tree.empty() << std::endl;
   std::cout << "Size of tree = " << tree.size() << std::endl;
   std::cout << "\nDisplaying tree elements: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(BinarySearchTree::Order::elementsOnly);
 
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -36,7 +36,7 @@ int main() {
 
   tree.erase(4);
   std::cout << "\nDisplaying tree elements after removing 4: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -49,7 +49,7 @@ int main() {
 
   tree.erase(9);
   std::cout << "\nDisplaying tree elements after removing 9 (the head): ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -62,7 +62,7 @@ int main() {
 
   tree.erase(20);
   std::cout << "\nDisplaying tree elements after removing 20: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -86,13 +86,13 @@ int main() {
   }
 
   std::cout << "\nTraversing tree0 inOrder = \n";
-  tree0.displayTree("inOrder");
+  tree0.displayTree(BinarySearchTree::Order::inOrder);
   std::cout << "\nTraversing tree0 preOrder = \n";
-  tree0.displayTree("preOrder");
+  tree0.displayTree(BinarySearchTree::Order::preOrder);
   std::cout << "\nTraversing tree0 postOrder = \n";
-  tree0.displayTree("postOrder");
+  tree0.displayTree(BinarySearchTree::Order::postOrder);
   std::cout << "\nTraversing tree0 elementsOnly = ";
-  tree0.displayTree("elementsOnly");
+  tree0.displayTree(BinarySearchTree::Order::elementsOnly);
 
   
   BinarySearchTree tree1;
@@ -104,19 +104,19 @@ int main() {
   BinarySearchTree tree3 = tree2;
   
   std::cout << "\n\nTraversing tree1 which was move assigned from tree0 (elementsOnly) = ";
-  tree1.displayTree("elementsOnly");
+  tree1.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\n\nTraversing tree2 which was copy constructed from tree1 (elementsOnly) = ";
-  tree2.displayTree("elementsOnly");
+  tree2.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\n\nTraversing tree3 which was copy assigned from tree2 (elementsOnly) = ";
-  tree3.displayTree("elementsOnly");
+  tree3.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\n\nTraversing tree0 again after it was move assigned to tree1 (elementsOnly) = ";
-  tree0.displayTree("elementsOnly");
+  tree0.displayTree(BinarySearchTree::Order::elementsOnly);
   //Move constructor
   BinarySearchTree tree4(std::move(tree3));
   std::cout << "\n\nTraversing tree4 which was move constructed from tree3 (elementsOnly) = ";
-  tree4.displayTree("elementsOnly");
+  tree4.displayTree(BinarySearchTree::Order::elementsOnly);
   std::cout << "\n\nTraversing tree3 again after it was move constructed to tree4 (elementsOnly) = ";
-  tree3.displayTree("elementsOnly");
+  tree3.displayTree(BinarySearchTree::Order::elementsOnly);
   
   puts("\n");
  

@@ -83,7 +83,7 @@ int main(){
   std::cout << "\n" << timeElapsed8 << " seconds have elapsed for the vecTree to insert " 
             << INSERT_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   std::cout << "Size of vecTree = " << vecTree.size() << std::endl;
-  //vecTree.displayTree("elementsOnly");
+  //vecTree.displayTree(elementsOnly);
 
   // Timer t3;
   // for(int i {}; i < REMOVE_ITERATIONS; ++i) {
@@ -114,7 +114,7 @@ int main(){
   // std::cout << "\n" << timeElapsed10 << " seconds have elapsed for the vecTree to erase " 
   //           << REMOVE_ITERATIONS << " random numbers between 1 and " << MAX << "." << std::endl;
   // std::cout << "Size of vecTree after deletions = " << vecTree.size() << ".\n\n"<< std::endl;
-  //vecTree.displayTree("elementsOnly");
+  //vecTree.displayTree(elementsOnly);
 
   int foundInRaw {};
   bool found;

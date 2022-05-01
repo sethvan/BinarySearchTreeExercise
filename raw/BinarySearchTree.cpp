@@ -10,7 +10,7 @@ BinarySearchTree::BinarySearchTree(const BinarySearchTree& rhs) {
 BinarySearchTree::BinarySearchTree(BinarySearchTree&& rhs) noexcept{
   head = rhs.head;
   rhs.head = nullptr;
-};
+}
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(const BinarySearchTree& rhs) {
   Node* temp = head;
@@ -26,11 +26,11 @@ BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(BinarySearchTree
   rhs.head = nullptr;
   destroyNodes(temp);
   return *this;
-};
+}
 
 BinarySearchTree::~BinarySearchTree() {
   destroyNodes(head);
-};
+}
 
 void BinarySearchTree::copyTree(Node* rhsHead) {
   if(rhsHead) {
@@ -86,7 +86,7 @@ bool BinarySearchTree::contains(int n) {
   return s != std::nullopt;
 }
 
-void BinarySearchTree::displayTree(const std::string& order) const {
+void BinarySearchTree::displayTree(BinarySearchTree::Order order) const {
   if(!head) {
     std::cout << "Node equals nullptr\n";
     return;
@@ -94,23 +94,23 @@ void BinarySearchTree::displayTree(const std::string& order) const {
   traverse(head, order);
 }
 
-void BinarySearchTree::traverse(Node* ptr, const std::string& order) const {
+void BinarySearchTree::traverse(Node* ptr, BinarySearchTree::Order order) const {
   
-  if ( order == "inOrder" ) {
+  if ( order == inOrder ) {
     if(ptr){
     traverse(ptr->left, order);
     std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
     traverse(ptr->right, order);
     }
-  } else if ( order == "preOrder") {
+  } else if ( order == preOrder) {
     if(ptr){
     std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
     traverse(ptr->left, order);
     traverse(ptr->right, order);
     }
-  } else if ( order == "postOrder") {
+  } else if ( order == postOrder) {
     if(ptr){
     traverse(ptr->left, order);
     traverse(ptr->right, order);
@@ -118,7 +118,7 @@ void BinarySearchTree::traverse(Node* ptr, const std::string& order) const {
               << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
    
     }
-  } else if ( order == "elementsOnly" ) {
+  } else if ( order == elementsOnly ) {
     if(ptr){
     traverse(ptr->left, order);
     std::cout << ptr->val << ", ";

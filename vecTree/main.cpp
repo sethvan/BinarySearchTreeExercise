@@ -23,7 +23,7 @@ int main(){
   std::cout << "tree.empty() = " << tree.empty() << std::endl;
   std::cout << "Size of tree = " << tree.size() << std::endl;
   std::cout << "\nDisplaying tree elements: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(VecTree<int>::Order::elementsOnly);
 
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -36,7 +36,7 @@ int main(){
 
   tree.erase(4);
   std::cout << "\nDisplaying tree elements after removing 4: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(VecTree<int>::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -49,7 +49,7 @@ int main(){
 
   tree.erase(20);
   std::cout << "\nDisplaying tree elements after removing 20: ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(VecTree<int>::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -61,13 +61,12 @@ int main(){
   std::cout << "1 is found in tree = " << tree.contains(1) << std::endl;
 
   std::cout << "\nTraversing tree preOrder = \n";
-  tree.displayTree("preOrder");
+  tree.displayTree(VecTree<int>::Order::preOrder);
 
   tree.erase(9);
   std::cout << "You are here5" << std::endl;
   std::cout << "\nDisplaying tree elements after removing 9 (the head): ";
-  std::cout << "You are here6" << std::endl;
-  tree.displayTree("elementsOnly");
+  tree.displayTree(VecTree<int>::Order::elementsOnly);
   std::cout << "\nSize of tree = " << tree.size() << std::endl;
   std::cout << "\n\n9 is found in tree = " << tree.contains(9) << std::endl;
   std::cout << "4 is found in tree = " << tree.contains(4) << std::endl;
@@ -83,13 +82,13 @@ int main(){
 
 
   std::cout << "\nTraversing tree inOrder = \n";
-  tree.displayTree("inOrder");
+  tree.displayTree(VecTree<int>::Order::inOrder);
   std::cout << "\nTraversing tree preOrder = \n";
-  tree.displayTree("preOrder");
+  tree.displayTree(VecTree<int>::Order::preOrder);
   std::cout << "\nTraversing tree postOrder = \n";
-  tree.displayTree("postOrder");
+  tree.displayTree(VecTree<int>::Order::postOrder);
   std::cout << "\nTraversing tree elementsOnly = ";
-  tree.displayTree("elementsOnly");
+  tree.displayTree(VecTree<int>::Order::elementsOnly);
 
   return 0;
 
