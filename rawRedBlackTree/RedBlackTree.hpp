@@ -29,6 +29,7 @@ class RedBlackTree
     Node<K,V>* findKey(Node<K,V>* node, K key) const;
     Node<K,V>* moveToLeaf(Node<K,V>* toBeRemoved);
     void fixUp(Node<K,V>* node, Node<K,V>* sibling);
+   
 
   public:
     RedBlackTree() {root = nullptr; treeSize = 0;}
@@ -41,6 +42,8 @@ class RedBlackTree
     void erase(K key);
     V& operator[](const K& key);
     size_t size() const;         
+    Node<K,V>* firstInOrder();//root
+    Node<K,V>* nextInOrder(Node<K,V>* node);
 };
 
 template <typename K, typename V>
@@ -425,7 +428,6 @@ void RedBlackTree<K,V>::erase(K key)
   if((node = findKey(root, key)) == nullptr) return;
   if((node = moveToLeaf(node))->color == red || node == root)
   {
-    //if(node == root) printf("Node == root\n");  
     delete node;
     --treeSize;
     return;
@@ -481,7 +483,8 @@ void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
     {
       if(sibling->branch == rightChild)
       {
-        if((sibling->left && (sibling->left->color == red)) && (!sibling->right || (sibling->right->color == black)))// case 5
+        if((sibling->left && (sibling->left->color == red)) && 
+          (!sibling->right || (sibling->right->color == black)))// case 5
         { 
           std::swap(sibling->left->color, sibling->color); 
           rightRotate(sibling);
@@ -497,7 +500,8 @@ void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
       }
       else
       { 
-        if((sibling->right && (sibling->right->color == red)) && (!sibling->left || (sibling->left->color == black)))// case 5
+        if((sibling->right && (sibling->right->color == red)) && 
+          (!sibling->left || (sibling->left->color == black)))// case 5
         {
           std::swap(sibling->right->color, sibling->color);
           leftRotate(sibling);
@@ -532,7 +536,35 @@ V& RedBlackTree<K,V>::operator[](const K& key)
     node = insertNode(root, key, defaultVal);
     return node->val;
   }
-}       
+}     
+
+template <typename K, typename V>
+Node<K,V>* RedBlackTree<K,V>::firstInOrder()//root
+{
+  Node<K,V>* node = root;
+  while(node->left) node = node->left;
+  return node;
+}
+
+template <typename K, typename V>
+Node<K,V>* RedBlackTree<K,V>::nextInOrder(Node<K,V>* node)
+{
+  if(node->right)
+  { 
+    node = node->right;
+    if(node->left)
+      while(node->left) node = node->left;
+    return node;
+  }
+  if(node->branch == leftChild)
+    return node->parent;
+  while(node->parent && (node->parent->branch == rightChild)) 
+    node = node->parent;
+  return node->parent == root || node == root? nullptr : node->parent->parent;
+}
+
+
+
 
 #endif // RedBlackTree
 

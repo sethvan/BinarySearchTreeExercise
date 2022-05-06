@@ -5,7 +5,7 @@ int main(){
   RedBlackTree<int,char> tree;
 
   for(int i = 0; i < 26; ++i)    
-    tree.insert(i, static_cast<char>(i + 97));
+    tree[i] = static_cast<char>(i + 97);
   puts("");
 
   tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
@@ -57,6 +57,17 @@ int main(){
   puts("\n");
   
   tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  puts("\n");
+
+  auto* myIt = tree.firstInOrder(); 
+  std::cout << "first in order->key = " << myIt->key << std::endl;
+
+  while(myIt)
+  {
+     std::cout << "(" << myIt->key << ", " << myIt->val << "), ";
+     myIt = tree.nextInOrder(myIt);
+  }
+  std::cout << std::endl;
 
   return 0;
 }

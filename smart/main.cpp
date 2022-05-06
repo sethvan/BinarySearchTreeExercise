@@ -66,6 +66,8 @@ int main() {
   tree3.displayTree(BinarySearchTreeSmart::Order::elementsOnly);
   
   puts("\n");
+
+ 
  
   return 0;
 }
