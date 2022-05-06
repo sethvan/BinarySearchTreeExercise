@@ -53,6 +53,7 @@ int main(){
   std::cout << "setting tree[300] to '#'" << std::endl;
   tree[300] = '#';
   std::cout << "tree[300] = " << tree[300] << std::endl;
+  std::cout << "Size = " << tree.size() << std::endl;
   puts("\n");
   
   tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);

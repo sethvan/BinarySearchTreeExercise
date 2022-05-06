@@ -3,7 +3,7 @@
 
 #include "Node.hpp"
 #include <cassert>
-
+#include <iostream>
 
 template <typename K, typename V>
 class RedBlackTree 
@@ -31,7 +31,7 @@ class RedBlackTree
     void fixUp(Node<K,V>* node, Node<K,V>* sibling);
 
   public:
-    RedBlackTree() {root = nullptr;}
+    RedBlackTree() {root = nullptr; treeSize = 0;}
     ~RedBlackTree();
     void insert(K key, V val); 
     int height() const;
@@ -39,8 +39,15 @@ class RedBlackTree
     int blackNodes() const;
     bool contains(K key) const;
     void erase(K key);
-    V& operator[](const K& key);         
+    V& operator[](const K& key);
+    size_t size() const;         
 };
+
+template <typename K, typename V>
+size_t RedBlackTree<K,V>::size() const
+{
+  return treeSize;
+}
 
 template <typename K, typename V>
 RedBlackTree<K,V>::~RedBlackTree()
@@ -86,7 +93,7 @@ Node<K,V>* RedBlackTree<K,V>::insertNode(Node<K,V>* parent, K key, V val)
       parent->right = node;
       treeSize++;
     }
-    else node = insertNode(parent->right, key, val);
+    else return insertNode(parent->right, key, val);
   }
   else
   {
@@ -96,9 +103,10 @@ Node<K,V>* RedBlackTree<K,V>::insertNode(Node<K,V>* parent, K key, V val)
       parent->left = node;
       treeSize++;
     }
-    else node = insertNode(parent->left, key, val);
+    else return insertNode(parent->left, key, val);
   }
-  checkColor(node);
+  if(node)
+   checkColor(node);
   return node;
 }
 
@@ -106,8 +114,10 @@ template <typename K, typename V>
 void RedBlackTree<K,V>::checkColor(Node<K,V>* node)
 {
   if(node == root) return;
+  assert(node);
   if(node->color == red && node->parent->color == red)
     correctTree(node);
+  if(node == root) return;
   return checkColor(node->parent);
 }
 
@@ -216,6 +226,7 @@ template <typename K, typename V>
 void RedBlackTree<K,V>::rightRotate(Node<K,V>* node) 
 {
   Node<K,V>* temp = node->left;
+  assert(temp);
   if(temp->left) temp->left->parent = temp;
   node->left = temp->right;
   if(node->left != nullptr)
@@ -225,7 +236,7 @@ void RedBlackTree<K,V>::rightRotate(Node<K,V>* node)
   }
   if(node->parent == nullptr)
   {
-    temp->parent = nullptr;    
+    temp->parent = nullptr;   
     temp->right = node;
     temp->right->parent = temp;
     root = temp;
@@ -297,13 +308,15 @@ void RedBlackTree<K,V>::traverse(Node<K, V>* ptr, RedBlackTree<K,V>::Order order
   if ( order == inOrder ) {
     if(ptr){
     traverse(ptr->left, order);
-    std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", " << ( ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
+    std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", " 
+              << (ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
               << (ptr->right ? std::to_string(ptr->right->key) : "NILL") << std::endl;
     traverse(ptr->right, order);
     }
   } else if ( order == preOrder) {
     if(ptr){
-    std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", " << ( ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
+    std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", " 
+              << (ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
               << (ptr->right ? std::to_string(ptr->right->key) : "NILL") << std::endl;
     traverse(ptr->left, order);
     traverse(ptr->right, order);
@@ -312,7 +325,8 @@ void RedBlackTree<K,V>::traverse(Node<K, V>* ptr, RedBlackTree<K,V>::Order order
     if(ptr){
     traverse(ptr->left, order);
     traverse(ptr->right, order);
-   std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", " << ( ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
+   std::cout << ptr->key << "(" << (ptr->color == red? "red" : "black") << ")(val=" << ptr->val << ")"<<", "
+             << (ptr->left ? std::to_string(ptr->left->key) : "NILL") << ", "
               << (ptr->right ? std::to_string(ptr->right->key) : "NILL") << std::endl;
    
     }
@@ -328,14 +342,10 @@ void RedBlackTree<K,V>::traverse(Node<K, V>* ptr, RedBlackTree<K,V>::Order order
 template <typename K, typename V>
 int RedBlackTree<K,V>::getBlackNodes(Node<K,V>* node) const
 {
-  if(node == nullptr)
-   return 1;
-  
+  if(node == nullptr) return 1;
   int leftBlackNodes = getBlackNodes(node->left);
   int rightBlackNodes = getBlackNodes(node->right);
-
   assert(leftBlackNodes == rightBlackNodes);
-      
   if(node->color == black) ++leftBlackNodes;
   return leftBlackNodes;
 }
@@ -415,17 +425,21 @@ void RedBlackTree<K,V>::erase(K key)
   if((node = findKey(root, key)) == nullptr) return;
   if((node = moveToLeaf(node))->color == red || node == root)
   {
+    //if(node == root) printf("Node == root\n");  
     delete node;
+    --treeSize;
     return;
-  } 
+  }  
   Node<K,V>* sibling = node->branch == leftChild? node->parent->right : node->parent->left;
+  delete node;  
   fixUp(node, sibling);
+  --treeSize;
   return;
 }
 
 template <typename K, typename V>
 void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
-{  
+{ 
   if(node)
     if(node == root) return;
  
@@ -435,7 +449,7 @@ void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
     std::swap(sibling->parent->color, sibling->color);
     if(sibling->branch == leftChild)
     {
-      rightRotate(parent);
+      rightRotate(parent);  
       fixUp(node, parent->left);
     }      
     else
@@ -445,16 +459,16 @@ void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
     }    
   }
   else
-  {
-    if((!sibling->left && !sibling->right) || (sibling->left->color == black and sibling->right->color == black))
+  { 
+    if((!sibling->left || sibling->left->color == black) && (!sibling->right || sibling->right->color == black))
     {
-      sibling->color = red;
+      sibling->color = red; 
       if(parent->color == red)
         parent->color = black;
       else
       {
         if(parent->parent)
-        {
+        {  
           if(parent->branch == leftChild)
             fixUp(parent, parent->parent->right);
           else
@@ -467,32 +481,32 @@ void RedBlackTree<K,V>::fixUp(Node<K,V>* node, Node<K,V>* sibling)
     {
       if(sibling->branch == rightChild)
       {
-        if(sibling->left->color == red)// case 5
-        {
-          std::swap(sibling->left->color, sibling->color);
+        if((sibling->left && (sibling->left->color == red)) && (!sibling->right || (sibling->right->color == black)))// case 5
+        { 
+          std::swap(sibling->left->color, sibling->color); 
           rightRotate(sibling);
           sibling = sibling->parent;
-        }
-        if(sibling->right->color == red)// case 6
-        {
-          Node<K,V>* nephew = sibling->right;
+        }  
+        if(sibling->right && (sibling->right->color == red))// case 6
+        {  
+          Node<K,V>* nephew = sibling->right; 
           std::swap(sibling->parent->color, sibling->color);
-          leftRotate(sibling->parent);
+          leftRotate(sibling->parent); 
           nephew->color = black;
         }
       }
       else
-      {
-        if(sibling->right->color == red)// case 5
+      { 
+        if((sibling->right && (sibling->right->color == red)) && (!sibling->left || (sibling->left->color == black)))// case 5
         {
           std::swap(sibling->right->color, sibling->color);
-          rightRotate(sibling);
+          leftRotate(sibling);
           sibling = sibling->parent;
-        }
-        if(sibling->right->color == red)// case 6
+        } 
+        if(sibling->left && (sibling->left->color == red))// case 6
         {
-          Node<K,V>* nephew = sibling->left;
-          std::swap(sibling->parent->color, sibling->color);
+          Node<K,V>* nephew = sibling->left; 
+          std::swap(sibling->parent->color, sibling->color);  
           rightRotate(sibling->parent);
           nephew->color = black;
         }
@@ -510,6 +524,11 @@ V& RedBlackTree<K,V>::operator[](const K& key)
   else
   {
     V defaultVal {};
+    if(!treeSize)
+    {
+      insert(key, defaultVal);
+      return root->val;
+    }
     node = insertNode(root, key, defaultVal);
     return node->val;
   }
