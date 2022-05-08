@@ -374,6 +374,7 @@ void RedBlackTree<K, V>::erase(K key) {
   Node<K, V>* node;
   if ((node = findKey(root, key)) == nullptr) return;
   if ((node = moveToLeaf(node))->color == red || node == root) {
+    if (node == root) root = nullptr;
     delete node;
     --treeSize;
     return;
