@@ -1,17 +1,17 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
+
 #include "VecTree.hpp"
-#include <iomanip>
 
+int main() {
+  VecTree<int> tree{};
 
-int main(){
-  VecTree<int> tree {};
-  
   std::cout << std::boolalpha;
   std::cout << "\ntree.empty() = " << tree.empty() << std::endl;
   std::cout << "Size of tree = " << tree.size() << std::endl;
   std::cout << "Inserting 7 elements..." << std::endl;
-   
+
   tree.insert(9);
   tree.insert(4);
   tree.insert(6);
@@ -30,7 +30,7 @@ int main(){
   std::cout << "6 is found in tree = " << tree.contains(6) << std::endl;
   std::cout << "20 is found in tree = " << tree.contains(20) << std::endl;
   std::cout << "170 is found in tree = " << tree.contains(170) << std::endl;
-  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;       
+  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;
   std::cout << "30 is found in tree = " << tree.contains(30) << std::endl;
   std::cout << "1 is found in tree = " << tree.contains(1) << std::endl;
 
@@ -43,7 +43,7 @@ int main(){
   std::cout << "6 is found in tree = " << tree.contains(6) << std::endl;
   std::cout << "20 is found in tree = " << tree.contains(20) << std::endl;
   std::cout << "170 is found in tree = " << tree.contains(170) << std::endl;
-  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;       
+  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;
   std::cout << "30 is found in tree = " << tree.contains(30) << std::endl;
   std::cout << "1 is found in tree = " << tree.contains(1) << std::endl;
 
@@ -56,7 +56,7 @@ int main(){
   std::cout << "6 is found in tree = " << tree.contains(6) << std::endl;
   std::cout << "20 is found in tree = " << tree.contains(20) << std::endl;
   std::cout << "170 is found in tree = " << tree.contains(170) << std::endl;
-  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;       
+  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;
   std::cout << "30 is found in tree = " << tree.contains(30) << std::endl;
   std::cout << "1 is found in tree = " << tree.contains(1) << std::endl;
 
@@ -73,13 +73,13 @@ int main(){
   std::cout << "6 is found in tree = " << tree.contains(6) << std::endl;
   std::cout << "20 is found in tree = " << tree.contains(20) << std::endl;
   std::cout << "170 is found in tree = " << tree.contains(170) << std::endl;
-  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;       
+  std::cout << "15 is found in tree = " << tree.contains(15) << std::endl;
   std::cout << "30 is found in tree = " << tree.contains(30) << std::endl;
   std::cout << "1 is found in tree = " << tree.contains(1) << std::endl;
 
   tree.clear();
-  std::cout << "\nSize of tree after tree.clear()= " << tree.size() << std::endl;
-
+  std::cout << "\nSize of tree after tree.clear()= " << tree.size()
+            << std::endl;
 
   std::cout << "\nTraversing tree inOrder = \n";
   tree.displayTree(VecTree<int>::Order::inOrder);
@@ -91,5 +91,4 @@ int main(){
   tree.displayTree(VecTree<int>::Order::elementsOnly);
 
   return 0;
-
 }

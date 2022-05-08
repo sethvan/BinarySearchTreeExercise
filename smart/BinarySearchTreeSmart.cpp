@@ -1,4 +1,5 @@
 #include "BinarySearchTreeSmart.hpp"
+
 #include <iostream>
 #include <string>
 
@@ -7,18 +8,21 @@ BinarySearchTreeSmart::BinarySearchTreeSmart(const BinarySearchTreeSmart& rhs) {
   copyTree(rhs.head.get());
 }
 
-BinarySearchTreeSmart::BinarySearchTreeSmart(BinarySearchTreeSmart&& rhs) noexcept{
+BinarySearchTreeSmart::BinarySearchTreeSmart(
+    BinarySearchTreeSmart&& rhs) noexcept {
   head = std::move(rhs.head);
   rhs.head = nullptr;
 };
 
-BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(const BinarySearchTreeSmart& rhs) {
+BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
+    const BinarySearchTreeSmart& rhs) {
   head = nullptr;
   copyTree(rhs.head.get());
   return *this;
 }
 
-BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(BinarySearchTreeSmart&& rhs) noexcept {
+BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
+    BinarySearchTreeSmart&& rhs) noexcept {
   head = std::move(rhs.head);
   rhs.head = nullptr;
   return *this;
@@ -29,7 +33,7 @@ BinarySearchTreeSmart::~BinarySearchTreeSmart() {
 };
 
 void BinarySearchTreeSmart::copyTree(Node* rhsHead) {
-  if(rhsHead) {
+  if (rhsHead) {
     this->insert(rhsHead->val);
     copyTree(rhsHead->left.get());
     copyTree(rhsHead->right.get());
@@ -37,36 +41,35 @@ void BinarySearchTreeSmart::copyTree(Node* rhsHead) {
 }
 
 void BinarySearchTreeSmart::destroyNodes(std::unique_ptr<Node> p) {
-  if(p){
+  if (p) {
     destroyNodes(std::move(p->left));
     destroyNodes(std::move(p->right));
     p.reset(nullptr);
-  } 
+  }
 }
 
 void BinarySearchTreeSmart::insertNode(std::unique_ptr<Node>* ptr, int n) {
-  if(*ptr == nullptr) {
+  if (*ptr == nullptr) {
     *ptr = std::make_unique<Node>(n, nullptr, nullptr);
     return;
   } else {
     if (n < (*ptr)->val) {
       ptr = &((*ptr)->left);
       insertNode(ptr, n);
-    } else if ( n > (*ptr)->val) {
+    } else if (n > (*ptr)->val) {
       ptr = &((*ptr)->right);
       insertNode(ptr, n);
-    } else return;    
+    } else
+      return;
   }
 }
 
-void BinarySearchTreeSmart::insert(int n) {
-  insertNode(&head, n);
-}
+void BinarySearchTreeSmart::insert(int n) { insertNode(&head, n); }
 
 bool BinarySearchTreeSmart::foundInList(Node* ptr, int n) const {
-  if(ptr == nullptr) {    
+  if (ptr == nullptr) {
     return false;
-  } else if(ptr->val == n) {
+  } else if (ptr->val == n) {
     return true;
   } else {
     if (n < ptr->val) {
@@ -75,7 +78,7 @@ bool BinarySearchTreeSmart::foundInList(Node* ptr, int n) const {
     } else {
       ptr = ptr->right.get();
       return foundInList(ptr, n);
-    } 
+    }
   }
 }
 
@@ -83,42 +86,49 @@ bool BinarySearchTreeSmart::contains(int n) const {
   return foundInList(head.get(), n);
 }
 
-void BinarySearchTreeSmart::displayTree(BinarySearchTreeSmart::Order order) const {
-  if(!head) {
+void BinarySearchTreeSmart::displayTree(
+    BinarySearchTreeSmart::Order order) const {
+  if (!head) {
     std::cout << "Node equals nullptr\n";
     return;
   }
   traverse(head.get(), order);
 }
 
-void BinarySearchTreeSmart::traverse(Node* ptr, BinarySearchTreeSmart::Order order) const {
-  
-  if ( order == inOrder ) {
-    if(ptr){
-    traverse(ptr->left.get(), order);
-    std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
-              << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
-    traverse(ptr->right.get(), order);
+void BinarySearchTreeSmart::traverse(Node* ptr,
+                                     BinarySearchTreeSmart::Order order) const {
+  if (order == inOrder) {
+    if (ptr) {
+      traverse(ptr->left.get(), order);
+      std::cout << ptr->val << ", "
+                << (ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
+                << (ptr->right ? std::to_string(ptr->right->val) : "NULL")
+                << std::endl;
+      traverse(ptr->right.get(), order);
     }
-  } else if ( order == preOrder) {
-    if(ptr){
-    std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
-              << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
-    traverse(ptr->left.get(), order);
-    traverse(ptr->right.get(), order);
+  } else if (order == preOrder) {
+    if (ptr) {
+      std::cout << ptr->val << ", "
+                << (ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
+                << (ptr->right ? std::to_string(ptr->right->val) : "NULL")
+                << std::endl;
+      traverse(ptr->left.get(), order);
+      traverse(ptr->right.get(), order);
     }
-  } else if ( order == postOrder) {
-    if(ptr){
-    traverse(ptr->left.get(), order);
-    traverse(ptr->right.get(), order);
-    std::cout << ptr->val << ", " << ( ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
-              << (ptr->right ? std::to_string(ptr->right->val) : "NULL") << std::endl;
+  } else if (order == postOrder) {
+    if (ptr) {
+      traverse(ptr->left.get(), order);
+      traverse(ptr->right.get(), order);
+      std::cout << ptr->val << ", "
+                << (ptr->left ? std::to_string(ptr->left->val) : "NULL") << ", "
+                << (ptr->right ? std::to_string(ptr->right->val) : "NULL")
+                << std::endl;
     }
-  } else if ( order == elementsOnly ) {
-    if(ptr){
-    traverse(ptr->left.get(), order);
-    std::cout << ptr->val << ", ";
-    traverse(ptr->right.get(), order);
+  } else if (order == elementsOnly) {
+    if (ptr) {
+      traverse(ptr->left.get(), order);
+      std::cout << ptr->val << ", ";
+      traverse(ptr->right.get(), order);
     }
-  } 
+  }
 }

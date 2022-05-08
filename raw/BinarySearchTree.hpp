@@ -1,11 +1,10 @@
-//Raw version
+// Raw version
 #ifndef _BINARY_SEARCH_TREE_
 #define _BINARY_SEARCH_TREE_
-#include <string>
 #include <optional>
+#include <string>
 
 class BinarySearchTree {
-
   struct Node {
     int val;
     Node* left;
@@ -18,22 +17,21 @@ class BinarySearchTree {
     bool left;
   };
 
-  public:
-  enum Order {inOrder, preOrder, postOrder, elementsOnly};
+ public:
+  enum Order { inOrder, preOrder, postOrder, elementsOnly };
 
-  private:
+ private:
   Node* head;
   void insertNode(Node** ptr, int n);
-  std::optional<lookupResult> foundInList(Node* parent, Node* node, int n, bool left);
+  std::optional<lookupResult> foundInList(Node* parent, Node* node, int n,
+                                          bool left);
   void destroyNodes(Node* ptr);
-  void traverse(Node* ptr, Order order ) const;
+  void traverse(Node* ptr, Order order) const;
   void copyTree(Node* rhsHead);
   void calculateSize(Node* ptr);
-  int elementQty {};
-  
-  
+  int elementQty{};
 
-  public:
+ public:
   BinarySearchTree() { head = nullptr; }
   BinarySearchTree(const BinarySearchTree& rhs);
   BinarySearchTree(BinarySearchTree&& rhs) noexcept;
@@ -42,7 +40,7 @@ class BinarySearchTree {
   BinarySearchTree& operator=(BinarySearchTree&& rhs) noexcept;
 
   void displayTree(Order order) const;
-  void insert(int n);  
+  void insert(int n);
   bool contains(int n);
   void erase(int n);
   bool empty();
@@ -50,4 +48,4 @@ class BinarySearchTree {
   void clear();
 };
 
-#endif // Binary Search Tree
+#endif  // Binary Search Tree

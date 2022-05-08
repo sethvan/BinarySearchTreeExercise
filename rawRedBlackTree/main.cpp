@@ -1,11 +1,11 @@
 #include <iostream>
+
 #include "RedBlackTree.hpp"
 
-int main(){
-  RedBlackTree<int,char> tree;
+int main() {
+  RedBlackTree<int, char> tree;
 
-  for(int i = 0; i < 26; ++i)    
-    tree[i] = static_cast<char>(i + 97);
+  for (int i = 0; i < 26; ++i) tree[i] = static_cast<char>(i + 97);
   puts("");
 
   tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
@@ -55,19 +55,22 @@ int main(){
   std::cout << "tree[300] = " << tree[300] << std::endl;
   std::cout << "Size = " << tree.size() << std::endl;
   puts("\n");
-  
+
   tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
   puts("\n");
 
-  auto* myIt = tree.firstInOrder(); 
+  auto* myIt = tree.firstInOrder();
   std::cout << "first in order->key = " << myIt->key << std::endl;
 
-  while(myIt)
-  {
-     std::cout << "(" << myIt->key << ", " << myIt->val << "), ";
-     myIt = tree.nextInOrder(myIt);
+  while (myIt) {
+    std::cout << "(" << myIt->key << ", " << myIt->val << "), ";
+    myIt = tree.nextInOrder(myIt);
   }
-  std::cout << std::endl;
+  puts("\n");
+
+  // std::cout << "\n\n testing out linear destructor method...\n" <<std::endl;
+  // tree.lowMemDestruct();
+  // puts("");
 
   return 0;
 }
