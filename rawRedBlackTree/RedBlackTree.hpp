@@ -29,7 +29,7 @@ class RedBlackTree {
   Node<K, V>* findKey(Node<K, V>* node, K key) const;
   Node<K, V>* moveToLeaf(Node<K, V>* toBeRemoved);
   void fixUp(Node<K, V>* node, Node<K, V>* sibling);
-  // void lowMemDestruct();
+  void lowMemDestruct();
 
  public:
   RedBlackTree() {
@@ -47,7 +47,6 @@ class RedBlackTree {
   size_t size() const;
   Node<K, V>* firstInOrder();  // root
   Node<K, V>* nextInOrder(Node<K, V>* node);
-  void lowMemDestruct();
 };
 
 template <typename K, typename V>
