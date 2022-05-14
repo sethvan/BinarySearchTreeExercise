@@ -25,7 +25,6 @@ class RedBlackTree {
     Node<K, V>* nextInOrder();
     Node<K, V>* previousInOrder();
     Node<K, V>* lastInOrder();
-    std::unique_ptr<std::pair<const K&, V&>> exposeAsConst(const K&, V&);
 
    public:
     Iterator(Node<K, V>* _p = nullptr, Node<K, V>* _root = nullptr);
@@ -548,8 +547,8 @@ RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::end() {
   return Iterator{root->parent, root};
 }
 
-/* ************************************************* Iterator methods
- * ****************************************************/
+/***************************Iterator methods*****************************/
+
 template <typename K, typename V>
 RedBlackTree<K, V>::Iterator::Iterator(Node<K, V>* _p, Node<K, V>* _root)
     : p{_p}, itRoot(_root) {
