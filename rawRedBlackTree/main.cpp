@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 
 #include "RedBlackTree.hpp"
@@ -10,14 +11,47 @@ int main() {
   tree1.insert(1, 'b');
   tree1.insert(2, 'c');
 
-  //     RedBlackTree<int, char>
-  //         tree;
+  RedBlackTree<int, char> tree;
 
-  // for (int i = 0; i < 26; ++i) tree[i] = static_cast<char>(i + 97);
-  // puts("");
+  for (int i = 0; i < 26; ++i) tree[i] = static_cast<char>(i + 97);
+  puts("");
 
-  // tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
-  // puts("");
+  auto it = tree.begin();
+  while (it != tree.end()) {
+    std::cout << "key = " << it->first << ", value = " << it->second
+              << std::endl;
+    ++it;
+  }
+  puts("");
+  it = tree.begin();
+  std::cout << "it->second = " << (*it).second << std::endl;
+  (*it).second = '$';
+
+  auto itEnd = tree.end();
+  --itEnd;
+  std::cout << "tree.end() - 1 -> first = " << itEnd->first << "\n"
+            << std::endl;
+
+  for (const auto pair : tree) {
+    std::cout << "key = " << pair.first << ", value = " << pair.second
+              << std::endl;
+  }
+  puts("");
+
+  auto it3 = tree.begin();
+
+  std::cout << "tree.begin().first = " << it3->first << std::endl;
+  // it3->first = 35;
+  std::cout << "tree.begin().first = " << it3->first << std::endl;
+
+  tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  puts("");
+
+  int num = std::count_if(
+      tree.begin(), tree.end(),
+      [](std::pair<int, char> pair) { return pair.second % 3 == 0; });
+  std::cout << "Num = " << num << std::endl;
+
   // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
@@ -74,11 +108,11 @@ int main() {
   //   std::cout << "(" << myIt->key << ", " << myIt->val << "), ";
   //   myIt = tree.nextInOrder(myIt);
   // }
-  // puts("\n");
+  puts("\n");
 
-  // std::cout << "\n\n testing out linear destructor method...\n" <<std::endl;
+  // std::cout << "\n\n testing out linear destructor method...\n" << std::endl;
   // tree.lowMemDestruct();
-  // puts("");
+  puts("");
 
   return 0;
 }
