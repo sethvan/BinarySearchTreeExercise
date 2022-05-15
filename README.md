@@ -8,8 +8,8 @@ which is currently only set up for int keys.
 
 The red black tree version being the most involved also contains other methods not listed in the below table. The  
 table lists the current state of the project concerning some common qualities that I chose to either include or not  
-as of yet amongst them. The `main.cpp` files are just arbitrary bits of code I used to test the structures out. As time   
-permits I will continue to update/improve this project.
+as of yet amongst them. The `main.cpp` files are just arbitrary bits of code I would play around with and modify to  
+test the structures out. As time permits I will continue to update/improve this project.
 
 version|special members| contains() | erase() | empty() | size() | clear() | balanced | set | map | iterator| template   
 --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
