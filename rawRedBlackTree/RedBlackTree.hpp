@@ -61,13 +61,20 @@ class RedBlackTree {
   void fixUp(Node<K, V>* node, Node<K, V>* sibling);
   void lowMemDestruct();
   Node<K, V>* firstInOrder();  // root
+  void copyTree(Node<K, V>* rhsRoot);
 
  public:
   RedBlackTree() {
     root = nullptr;
     treeSize = 0;
   }
+  RedBlackTree(const RedBlackTree<K, V>& rhs);
+  RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept;
   ~RedBlackTree();
+  RedBlackTree<K, V>& operator=(const RedBlackTree<K, V>& rhs);
+  RedBlackTree<K, V>& operator=(RedBlackTree<K, V>&& rhs) noexcept;
+
+  bool empty() { return (!root); }
   void insert(K key, V val);
   int height() const;
   void displayTree(Order order) const;
@@ -79,6 +86,47 @@ class RedBlackTree {
   Iterator begin();
   Iterator end();
 };
+
+template <typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs) {
+  root = nullptr;
+  copyTree(rhs.root);
+}
+
+template <typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept {
+  root = rhs.root;
+  rhs.root = nullptr;
+}
+
+template <typename K, typename V>
+RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
+    const RedBlackTree<K, V>& rhs) {
+  Node<K, V>* temp = root;
+  root = nullptr;
+  copyTree(rhs.root);
+  destroyNodes(temp);
+  return *this;
+}
+
+template <typename K, typename V>
+RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
+    RedBlackTree<K, V>&& rhs) noexcept {
+  Node<K, V>* temp = root;
+  root = rhs.root;
+  rhs.root = nullptr;
+  destroyNodes(temp);
+  return *this;
+}
+
+template <typename K, typename V>
+void RedBlackTree<K, V>::copyTree(Node<K, V>* rhsRoot) {
+  if (rhsRoot) {
+    this->insert(rhsRoot->kvp.first, rhsRoot->second);
+    copyTree(rhsRoot->left);
+    copyTree(rhsRoot->right);
+  }
+}
 
 template <typename K, typename V>
 size_t RedBlackTree<K, V>::size() const {
