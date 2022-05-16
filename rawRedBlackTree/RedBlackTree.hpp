@@ -62,6 +62,7 @@ class RedBlackTree {
   void lowMemDestruct();
   Node<K, V>* firstInOrder();  // root
   void copyTree(Node<K, V>* rhsRoot);
+  void swap(RedBlackTree<K, V>& rhs) noexcept;
 
  public:
   RedBlackTree() {
@@ -86,7 +87,6 @@ class RedBlackTree {
   size_t size() const;
   Iterator begin();
   Iterator end();
-  void swap(RedBlackTree<K, V>& rhs) noexcept;
 };
 
 template <typename K, typename V>
