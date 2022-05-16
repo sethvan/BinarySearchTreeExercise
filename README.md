@@ -17,4 +17,4 @@ test the structures out. As time permits I will continue to update/improve this 
 | Raw     |        x        |     x      |    x    |    x    |   x    |    x    |          |  x  |
 | Smart   |        x        |     x      |         |         |        |         |          |  x  |
 | Vec     |                 |     x      |    x    |    x    |   x    |    x    |          |  x  |     |          |    x     |
-| RBT     |        x        |     x      |    x    |         |   x    |         |    x     |     |  x  |    x     |    x     |
+| RBT     |        x        |     x      |    x    |    x    |   x    |    x    |    x     |     |  x  |    x     |    x     |

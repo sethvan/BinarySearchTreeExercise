@@ -75,6 +75,7 @@ class RedBlackTree {
   RedBlackTree<K, V>& operator=(RedBlackTree<K, V>&& rhs) noexcept;
 
   bool empty() { return (!root); }
+  void clear();
   void insert(K key, V val);
   int height() const;
   void displayTree(Order order) const;
@@ -145,6 +146,13 @@ void RedBlackTree<K, V>::destroyNodes(Node<K, V>* node) {
     destroyNodes(node->right);
     delete node;
   }
+}
+
+template <typename K, typename V>
+void RedBlackTree<K, V>::clear() {
+  Node<K, V>* temp = root;
+  root = nullptr;
+  destroyNodes(temp);
 }
 
 template <typename K, typename V>
