@@ -21,6 +21,8 @@ class BinarySearchTreeSmart {
   void destroyNodes(std::unique_ptr<Node> ptr);
   void traverse(Node* ptr, const Order order) const;
   void copyTree(Node* rhsHead);
+  void calculateSize(Node* ptr);
+  size_t elementQty{};
 
  public:
   BinarySearchTreeSmart() { head = nullptr; }
@@ -33,6 +35,7 @@ class BinarySearchTreeSmart {
   void displayTree(const Order order) const;
   void insert(int n);
   bool contains(int n) const;
+  size_t size();
 };
 
 #endif  // Binary Search Tree

@@ -16,16 +16,20 @@ BinarySearchTreeSmart::BinarySearchTreeSmart(
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     const BinarySearchTreeSmart& rhs) {
-  head = nullptr;
-  copyTree(rhs.head.get());
-  return *this;
+  if (head != rhs.head) {
+    head = nullptr;
+    copyTree(rhs.head.get());
+    return *this;
+  }
 }
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     BinarySearchTreeSmart&& rhs) noexcept {
-  head = std::move(rhs.head);
-  rhs.head = nullptr;
-  return *this;
+  if (head != rhs.head) {
+    head = std::move(rhs.head);
+    rhs.head = nullptr;
+    return *this;
+  }
 };
 
 BinarySearchTreeSmart::~BinarySearchTreeSmart() {
@@ -130,5 +134,19 @@ void BinarySearchTreeSmart::traverse(Node* ptr,
       std::cout << ptr->val << ", ";
       traverse(ptr->right.get(), order);
     }
+  }
+}
+
+size_t BinarySearchTreeSmart::size() {
+  elementQty = 0;
+  calculateSize(head.get());
+  return elementQty;
+}
+
+void BinarySearchTreeSmart::calculateSize(Node* ptr) {
+  if (ptr) {
+    calculateSize(ptr->left.get());
+    if (ptr->val) ++elementQty;
+    calculateSize(ptr->right.get());
   }
 }
