@@ -15,6 +15,6 @@ test the structures out. As time permits I will continue to update/improve this 
 | version | special members | contains() | erase() | empty() | size() | clear() | balanced | key | key, value | iterator | template |
 | ------- | :-------------: | :--------: | :-----: | :-----: | :----: | :-----: | :------: | :-: | :--------: | :------: | :------: |
 | Raw     |        x        |     x      |    x    |    x    |   x    |    x    |          |  x  |
-| Smart   |        x        |     x      |         |         |        |         |          |  x  |
+| Smart   |        x        |     x      |         |         |   x    |         |          |  x  |
 | Vec     |                 |     x      |    x    |    x    |   x    |    x    |          |  x  |            |          |    x     |
 | RBT     |        x        |     x      |    x    |    x    |   x    |    x    |    x     |     |     x      |    x     |    x     |

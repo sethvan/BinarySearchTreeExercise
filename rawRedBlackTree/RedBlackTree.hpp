@@ -91,15 +91,17 @@ class RedBlackTree {
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs)
     : RedBlackTree() {
-  copyTree(rhs.root);
+  if (root != rhs.root) copyTree(rhs.root);
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept {
-  root = rhs.root;
-  treeSize = rhs.size();
-  rhs.treeSize = 0;
-  rhs.root = nullptr;
+  if (root != rhs.root) {
+    root = rhs.root;
+    treeSize = rhs.size();
+    rhs.treeSize = 0;
+    rhs.root = nullptr;
+  }
 }
 
 template <typename K, typename V>

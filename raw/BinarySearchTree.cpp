@@ -15,23 +15,29 @@ BinarySearchTree::BinarySearchTree(BinarySearchTree&& rhs) noexcept {
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     const BinarySearchTree& rhs) {
-  Node* temp = head;
-  head = nullptr;
-  copyTree(rhs.head);
-  destroyNodes(temp);
-  return *this;
+  if (head != rhs.head) {
+    Node* temp = head;
+    head = nullptr;
+    copyTree(rhs.head);
+    destroyNodes(temp);
+    return *this;
+  }
 }
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     BinarySearchTree&& rhs) noexcept {
-  Node* temp = head;
-  head = rhs.head;
-  rhs.head = nullptr;
-  destroyNodes(temp);
-  return *this;
+  if (head != rhs.head) {
+    Node* temp = head;
+    head = rhs.head;
+    rhs.head = nullptr;
+    destroyNodes(temp);
+    return *this;
+  }
 }
 
-BinarySearchTree::~BinarySearchTree() { destroyNodes(head); }
+BinarySearchTree::~BinarySearchTree() {
+  if (head) destroyNodes(head);
+}
 
 void BinarySearchTree::copyTree(Node* rhsHead) {
   if (rhsHead) {
