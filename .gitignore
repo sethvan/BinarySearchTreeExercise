@@ -1,6 +1,6 @@
 rawNotes.cpp
 **/.vscode/
 demo.cpp
-**/tests
-**/irt 
-**/main
+raw/build
+smart/build
+rawRedBlackTree/build
