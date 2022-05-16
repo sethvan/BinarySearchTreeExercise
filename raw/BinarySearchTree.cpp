@@ -1,6 +1,7 @@
 // Raw version
 #include "BinarySearchTree.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <memory>
 BinarySearchTree::BinarySearchTree(const BinarySearchTree& rhs) {
@@ -15,24 +16,22 @@ BinarySearchTree::BinarySearchTree(BinarySearchTree&& rhs) noexcept {
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     const BinarySearchTree& rhs) {
-  if (head != rhs.head) {
-    Node* temp = head;
-    head = nullptr;
-    copyTree(rhs.head);
-    destroyNodes(temp);
-    return *this;
-  }
+  if (head == rhs.head) return *this;
+  Node* temp = head;
+  head = nullptr;
+  copyTree(rhs.head);
+  destroyNodes(temp);
+  return *this;
 }
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     BinarySearchTree&& rhs) noexcept {
-  if (head != rhs.head) {
-    Node* temp = head;
-    head = rhs.head;
-    rhs.head = nullptr;
-    destroyNodes(temp);
-    return *this;
-  }
+  if (head == rhs.head) return *this;
+  Node* temp = head;
+  head = rhs.head;
+  rhs.head = nullptr;
+  destroyNodes(temp);
+  return *this;
 }
 
 BinarySearchTree::~BinarySearchTree() {

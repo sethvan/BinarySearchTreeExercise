@@ -16,20 +16,18 @@ BinarySearchTreeSmart::BinarySearchTreeSmart(
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     const BinarySearchTreeSmart& rhs) {
-  if (head != rhs.head) {
-    head = nullptr;
-    copyTree(rhs.head.get());
-    return *this;
-  }
+  if (head == rhs.head) return *this;
+  head = nullptr;
+  copyTree(rhs.head.get());
+  return *this;
 }
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     BinarySearchTreeSmart&& rhs) noexcept {
-  if (head != rhs.head) {
-    head = std::move(rhs.head);
-    rhs.head = nullptr;
-    return *this;
-  }
+  if (head == rhs.head) return *this;
+  head = std::move(rhs.head);
+  rhs.head = nullptr;
+  return *this;
 };
 
 BinarySearchTreeSmart::~BinarySearchTreeSmart() {

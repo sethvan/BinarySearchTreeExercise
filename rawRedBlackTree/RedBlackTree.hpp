@@ -96,39 +96,35 @@ RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs)
 
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept {
-  if (root != rhs.root) {
-    root = rhs.root;
-    treeSize = rhs.size();
-    rhs.treeSize = 0;
-    rhs.root = nullptr;
-  }
+  root = rhs.root;
+  treeSize = rhs.size();
+  rhs.treeSize = 0;
+  rhs.root = nullptr;
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     const RedBlackTree<K, V>& rhs) {
-  if (root != rhs.root) {
-    Node<K, V>* temp = root;
-    root = nullptr;
-    treeSize = 0;
-    copyTree(rhs.root);
-    destroyNodes(temp);
-    return *this;
-  }
+  if (root == rhs.root) return *this;
+  Node<K, V>* temp = root;
+  root = nullptr;
+  treeSize = 0;
+  copyTree(rhs.root);
+  destroyNodes(temp);
+  return *this;
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     RedBlackTree<K, V>&& rhs) noexcept {
-  if (root != rhs.root) {
-    Node<K, V>* temp = root;
-    root = rhs.root;
-    treeSize = rhs.size();
-    rhs.treeSize = 0;
-    rhs.root = nullptr;
-    destroyNodes(temp);
-    return *this;
-  }
+  if (root == rhs.root) return *this;
+  Node<K, V>* temp = root;
+  root = rhs.root;
+  treeSize = rhs.size();
+  rhs.treeSize = 0;
+  rhs.root = nullptr;
+  destroyNodes(temp);
+  return *this;
 }
 
 template <typename K, typename V>
