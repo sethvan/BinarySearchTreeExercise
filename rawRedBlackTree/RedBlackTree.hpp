@@ -89,41 +89,50 @@ class RedBlackTree {
 };
 
 template <typename K, typename V>
-RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs) {
-  root = nullptr;
+RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs)
+    : RedBlackTree() {
   copyTree(rhs.root);
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept {
   root = rhs.root;
+  treeSize = rhs.size();
+  rhs.treeSize = 0;
   rhs.root = nullptr;
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     const RedBlackTree<K, V>& rhs) {
-  Node<K, V>* temp = root;
-  root = nullptr;
-  copyTree(rhs.root);
-  destroyNodes(temp);
-  return *this;
+  if (root != rhs.root) {
+    Node<K, V>* temp = root;
+    root = nullptr;
+    treeSize = 0;
+    copyTree(rhs.root);
+    destroyNodes(temp);
+    return *this;
+  }
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     RedBlackTree<K, V>&& rhs) noexcept {
-  Node<K, V>* temp = root;
-  root = rhs.root;
-  rhs.root = nullptr;
-  destroyNodes(temp);
-  return *this;
+  if (root != rhs.root) {
+    Node<K, V>* temp = root;
+    root = rhs.root;
+    treeSize = rhs.size();
+    rhs.treeSize = 0;
+    rhs.root = nullptr;
+    destroyNodes(temp);
+    return *this;
+  }
 }
 
 template <typename K, typename V>
 void RedBlackTree<K, V>::copyTree(Node<K, V>* rhsRoot) {
   if (rhsRoot) {
-    this->insert(rhsRoot->kvp.first, rhsRoot->second);
+    this->insert(rhsRoot->kvp.first, rhsRoot->kvp.second);
     copyTree(rhsRoot->left);
     copyTree(rhsRoot->right);
   }
@@ -136,7 +145,7 @@ size_t RedBlackTree<K, V>::size() const {
 
 template <typename K, typename V>
 RedBlackTree<K, V>::~RedBlackTree() {
-  lowMemDestruct();
+  if (root) lowMemDestruct();
 }
 
 template <typename K, typename V>
@@ -595,12 +604,12 @@ void RedBlackTree<K, V>::lowMemDestruct() {
 
 template <typename K, typename V>
 RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::begin() {
-  return Iterator{firstInOrder(), root};
+  if (root) return Iterator{firstInOrder(), root};
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::end() {
-  return Iterator{root->parent, root};
+  if (root) return Iterator{root->parent, root};
 }
 
 /***************************Iterator methods*****************************/
@@ -684,7 +693,7 @@ RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator--(int) {
 template <typename K, typename V>
 bool RedBlackTree<K, V>::Iterator::operator!=(
     const RedBlackTree<K, V>::Iterator& rhs) const {
-  return p != rhs.p;
+  if (itRoot) return p != rhs.p;
 }
 
 template <typename K, typename V>
@@ -704,10 +713,12 @@ RedBlackTree<K, V>::Iterator::operator->() {
 
 template <typename K, typename V>
 std::pair<const K&, V&> RedBlackTree<K, V>::Iterator::operator*() {
-  auto constKeyPair = [&](const K& key, V& value) {
-    return std::pair<const K&, V&>(key, value);
-  };
-  return constKeyPair(p->kvp.first, p->kvp.second);
+  if (itRoot) {
+    auto constKeyPair = [&](const K& key, V& value) {
+      return std::pair<const K&, V&>(key, value);
+    };
+    return constKeyPair(p->kvp.first, p->kvp.second);
+  }
 }
 
 #endif  // RedBlackTree
