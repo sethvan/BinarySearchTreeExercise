@@ -86,12 +86,13 @@ class RedBlackTree {
   size_t size() const;
   Iterator begin();
   Iterator end();
+  void swap(RedBlackTree<K, V>& rhs) noexcept;
 };
 
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const RedBlackTree<K, V>& rhs)
     : RedBlackTree() {
-  if (root != rhs.root) copyTree(rhs.root);
+  copyTree(rhs.root);
 }
 
 template <typename K, typename V>
@@ -105,25 +106,16 @@ RedBlackTree<K, V>::RedBlackTree(RedBlackTree<K, V>&& rhs) noexcept {
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     const RedBlackTree<K, V>& rhs) {
-  if (root == rhs.root) return *this;
-  Node<K, V>* temp = root;
-  root = nullptr;
-  treeSize = 0;
-  copyTree(rhs.root);
-  destroyNodes(temp);
+  RedBlackTree<K, V> temp(rhs);
+  swap(temp);
   return *this;
 }
 
 template <typename K, typename V>
 RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(
     RedBlackTree<K, V>&& rhs) noexcept {
-  if (root == rhs.root) return *this;
-  Node<K, V>* temp = root;
-  root = rhs.root;
-  treeSize = rhs.size();
-  rhs.treeSize = 0;
-  rhs.root = nullptr;
-  destroyNodes(temp);
+  RedBlackTree<K, V> temp(std::move(rhs));
+  swap(temp);
   return *this;
 }
 
@@ -609,6 +601,17 @@ RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::begin() {
 template <typename K, typename V>
 RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::end() {
   if (root) return Iterator{root->parent, root};
+}
+
+template <typename K, typename V>
+void RedBlackTree<K, V>::swap(RedBlackTree<K, V>& rhs) noexcept {
+  Node<K, V>* tempRoot = rhs.root;
+  size_t tempSize = rhs.treeSize;
+  rhs.root = root;
+  rhs.treeSize = treeSize;
+  root = tempRoot;
+  treeSize = tempSize;
+  tempRoot = nullptr;
 }
 
 /***************************Iterator methods*****************************/
