@@ -162,6 +162,7 @@ void RedBlackTree<K, V>::clear() {
   Node<K, V>* temp = root;
   root = nullptr;
   destroyNodes(temp);
+  treeSize = 0;
 }
 
 template <typename K, typename V>
