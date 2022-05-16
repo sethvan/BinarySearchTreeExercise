@@ -12,9 +12,9 @@ table lists the current state of the project concerning some common qualities th
 as of yet amongst them. The `main.cpp` files are just arbitrary bits of code I would play around with and modify to  
 test the structures out. As time permits I will continue to update/improve this project.
 
-| version | special members | contains() | erase() | empty() | size() | clear() | balanced | key | key,value | iterator | template |
-| ------- | :-------------: | :--------: | :-----: | :-----: | :----: | :-----: | :------: | :-: | :-------: | :------: | :------: |
+| version | special members | contains() | erase() | empty() | size() | clear() | balanced | key | key, value | iterator | template |
+| ------- | :-------------: | :--------: | :-----: | :-----: | :----: | :-----: | :------: | :-: | :--------: | :------: | :------: |
 | Raw     |        x        |     x      |    x    |    x    |   x    |    x    |          |  x  |
 | Smart   |        x        |     x      |         |         |        |         |          |  x  |
-| Vec     |                 |     x      |    x    |    x    |   x    |    x    |          |  x  |           |          |    x     |
-| RBT     |        x        |     x      |    x    |    x    |   x    |    x    |    x     |     |     x     |    x     |    x     |
+| Vec     |                 |     x      |    x    |    x    |   x    |    x    |          |  x  |            |          |    x     |
+| RBT     |        x        |     x      |    x    |    x    |   x    |    x    |    x     |     |     x      |    x     |    x     |
