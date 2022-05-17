@@ -85,8 +85,8 @@ class RedBlackTree {
   void erase(K key);
   V& operator[](const K& key);
   size_t size() const;
-  Iterator begin();
-  Iterator end();
+  auto begin() -> Iterator;
+  auto end() -> Iterator;
 };
 
 template <typename K, typename V>
@@ -594,13 +594,13 @@ void RedBlackTree<K, V>::lowMemDestruct() {
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::begin() {
-  if (root) return Iterator{firstInOrder(), root};
+auto RedBlackTree<K, V>::begin() -> Iterator {
+  return Iterator{empty() ? nullptr : firstInOrder(), root};
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::end() {
-  if (root) return Iterator{root->parent, root};
+auto RedBlackTree<K, V>::end() -> Iterator {
+  return Iterator{nullptr, root};
 }
 
 template <typename K, typename V>
@@ -618,13 +618,7 @@ void RedBlackTree<K, V>::swap(RedBlackTree<K, V>& rhs) noexcept {
 
 template <typename K, typename V>
 RedBlackTree<K, V>::Iterator::Iterator(Node<K, V>* _p, Node<K, V>* _root)
-    : p{_p}, itRoot(_root) {
-  if (!itRoot) {
-    Node<K, V>* node = p;
-    while (node->parent) node = node->parent;
-    itRoot = node;
-  }
-}
+    : p{_p}, itRoot(_root) {}
 
 template <typename K, typename V>
 Node<K, V>* RedBlackTree<K, V>::Iterator::nextInOrder() {
@@ -667,26 +661,30 @@ Node<K, V>* RedBlackTree<K, V>::Iterator::lastInOrder()  // root
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator& RedBlackTree<K, V>::Iterator::operator++() {
+typename RedBlackTree<K, V>::Iterator&
+RedBlackTree<K, V>::Iterator::operator++() {
   p = nextInOrder();
   return *this;
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator++(int) {
+typename RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator++(
+    int) {
   auto temp = *this;
   p = nextInOrder();
   return temp;
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator& RedBlackTree<K, V>::Iterator::operator--() {
+typename RedBlackTree<K, V>::Iterator&
+RedBlackTree<K, V>::Iterator::operator--() {
   p = p == nullptr ? lastInOrder() : previousInOrder();
   return *this;
 }
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator--(int) {
+typename RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator--(
+    int) {
   auto temp = *this;
   p = p == nullptr ? lastInOrder() : previousInOrder();
   return temp;
@@ -695,7 +693,7 @@ RedBlackTree<K, V>::Iterator RedBlackTree<K, V>::Iterator::operator--(int) {
 template <typename K, typename V>
 bool RedBlackTree<K, V>::Iterator::operator!=(
     const RedBlackTree<K, V>::Iterator& rhs) const {
-  if (itRoot) return p != rhs.p;
+  return !operator==(rhs);
 }
 
 template <typename K, typename V>
@@ -707,6 +705,7 @@ bool RedBlackTree<K, V>::Iterator::operator==(
 template <typename K, typename V>
 std::unique_ptr<std::pair<const K&, V&>>
 RedBlackTree<K, V>::Iterator::operator->() {
+  assert(p);
   auto constKeyPairPtr = [&](const K& key, V& value) {
     return std::make_unique<std::pair<const K&, V&>>(key, value);
   };
@@ -715,12 +714,11 @@ RedBlackTree<K, V>::Iterator::operator->() {
 
 template <typename K, typename V>
 std::pair<const K&, V&> RedBlackTree<K, V>::Iterator::operator*() {
-  if (itRoot) {
-    auto constKeyPair = [&](const K& key, V& value) {
-      return std::pair<const K&, V&>(key, value);
-    };
-    return constKeyPair(p->kvp.first, p->kvp.second);
-  }
+  assert(p);
+  auto constKeyPair = [&](const K& key, V& value) {
+    return std::pair<const K&, V&>(key, value);
+  };
+  return constKeyPair(p->kvp.first, p->kvp.second);
 }
 
 #endif  // RedBlackTree
