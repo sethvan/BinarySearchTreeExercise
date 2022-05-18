@@ -44,7 +44,7 @@ int main() {
   // it3->first = 35;
   std::cout << "tree.begin().first = " << it3->first << std::endl;
 
-  tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  tree.displayTree(Order::preOrder);
   puts("");
 
   int num = std::count_if(
@@ -52,39 +52,43 @@ int main() {
       [](std::pair<int, char> pair) { return pair.second % 3 == 0; });
   std::cout << "Num = " << num << std::endl;
 
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  puts("");
+  auto it20 = tree.find(20);
+  std::cout << "it20->second = " << it20->second << std::endl;
+
+  // tree.displayTree(Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
   // puts("\n");
   // tree.erase(11);
   // std::cout << "erasing 11...\n" << std::endl;
-  // tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  // tree.displayTree(Order::preOrder);
   // puts("");
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  // tree.displayTree(Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
   // puts("\n");
   // tree.erase(19);
   // std::cout << "erasing 19...\n" << std::endl;
-  // tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  // tree.displayTree(Order::preOrder);
   // puts("");
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  // tree.displayTree(Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
   // puts("\n");
   // tree.erase(4);
   // std::cout << "erasing 4...\n" << std::endl;
-  // tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  // tree.displayTree(Order::preOrder);
   // puts("");
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  // tree.displayTree(Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
   // puts("\n");
   // tree.erase(22);
   // std::cout << "erasing 22...\n" << std::endl;
-  // tree.displayTree(RedBlackTree<int, char>::Order::preOrder);
+  // tree.displayTree(Order::preOrder);
   // puts("");
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  // tree.displayTree(Order::elementsOnly);
   // std::cout << "\n\nHeight = " << tree.height() << std::endl;
   // std::cout << "Black nodes = " << tree.blackNodes() << std::endl;
 
@@ -98,21 +102,10 @@ int main() {
   // std::cout << "Size = " << tree.size() << std::endl;
   // puts("\n");
 
-  // tree.displayTree(RedBlackTree<int, char>::Order::elementsOnly);
+  // tree.displayTree(Order::elementsOnly);
   // puts("\n");
 
-  // auto* myIt = tree.firstInOrder();
-  // std::cout << "first in order->key = " << myIt->key << std::endl;
-
-  // while (myIt) {
-  //   std::cout << "(" << myIt->key << ", " << myIt->val << "), ";
-  //   myIt = tree.nextInOrder(myIt);
-  // }
   puts("\n");
-
-  // std::cout << "\n\n testing out linear destructor method...\n" << std::endl;
-  // tree.lowMemDestruct();
-  puts("");
 
   return 0;
 }

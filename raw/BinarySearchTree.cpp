@@ -4,33 +4,28 @@
 #include <cassert>
 #include <iostream>
 #include <memory>
-BinarySearchTree::BinarySearchTree(const BinarySearchTree& rhs) {
-  head = nullptr;
+#include <utility>
+BinarySearchTree::BinarySearchTree(const BinarySearchTree& rhs)
+    : BinarySearchTree() {
   copyTree(rhs.head);
 }
 
-BinarySearchTree::BinarySearchTree(BinarySearchTree&& rhs) noexcept {
-  head = rhs.head;
-  rhs.head = nullptr;
+BinarySearchTree::BinarySearchTree(BinarySearchTree&& rhs) noexcept
+    : BinarySearchTree() {
+  swap(rhs);
 }
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     const BinarySearchTree& rhs) {
-  if (head == rhs.head) return *this;
-  Node* temp = head;
-  head = nullptr;
-  copyTree(rhs.head);
-  destroyNodes(temp);
+  BinarySearchTree temp(rhs);
+  swap(temp);
   return *this;
 }
 
 BinarySearchTree& BinarySearchTree::BinarySearchTree::operator=(
     BinarySearchTree&& rhs) noexcept {
-  if (head == rhs.head) return *this;
-  Node* temp = head;
-  head = rhs.head;
-  rhs.head = nullptr;
-  destroyNodes(temp);
+  BinarySearchTree temp(std::move(rhs));
+  swap(temp);
   return *this;
 }
 
@@ -88,11 +83,10 @@ std::optional<BinarySearchTree::lookupResult> BinarySearchTree::foundInList(
 }
 
 bool BinarySearchTree::contains(int n) {
-  auto s = foundInList(head, head, n, true);
-  return s != std::nullopt;
+  return foundInList(head, head, n, true) != std::nullopt;
 }
 
-void BinarySearchTree::displayTree(BinarySearchTree::Order order) const {
+void BinarySearchTree::displayTree(Order order) const {
   if (!head) {
     std::cout << "Node equals nullptr\n";
     return;
@@ -100,8 +94,7 @@ void BinarySearchTree::displayTree(BinarySearchTree::Order order) const {
   traverse(head, order);
 }
 
-void BinarySearchTree::traverse(Node* ptr,
-                                BinarySearchTree::Order order) const {
+void BinarySearchTree::traverse(Node* ptr, Order order) const {
   if (order == inOrder) {
     if (ptr) {
       traverse(ptr->left, order);
@@ -203,4 +196,8 @@ void BinarySearchTree::clear() {
   Node* temp = head;
   head = nullptr;
   destroyNodes(temp);
+}
+
+void BinarySearchTree::swap(BinarySearchTree& rhs) {
+  std::swap(head, rhs.head);
 }

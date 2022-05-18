@@ -1,32 +1,32 @@
 #include "BinarySearchTreeSmart.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <string>
+#include <utility>
 
-BinarySearchTreeSmart::BinarySearchTreeSmart(const BinarySearchTreeSmart& rhs) {
-  head = nullptr;
+BinarySearchTreeSmart::BinarySearchTreeSmart(const BinarySearchTreeSmart& rhs)
+    : BinarySearchTreeSmart() {
   copyTree(rhs.head.get());
 }
 
 BinarySearchTreeSmart::BinarySearchTreeSmart(
-    BinarySearchTreeSmart&& rhs) noexcept {
-  head = std::move(rhs.head);
-  rhs.head = nullptr;
+    BinarySearchTreeSmart&& rhs) noexcept
+    : BinarySearchTreeSmart() {
+  swap(rhs);
 };
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     const BinarySearchTreeSmart& rhs) {
-  if (head == rhs.head) return *this;
-  head = nullptr;
-  copyTree(rhs.head.get());
+  BinarySearchTreeSmart temp(rhs);
+  swap(temp);
   return *this;
 }
 
 BinarySearchTreeSmart& BinarySearchTreeSmart::BinarySearchTreeSmart::operator=(
     BinarySearchTreeSmart&& rhs) noexcept {
-  if (head == rhs.head) return *this;
-  head = std::move(rhs.head);
-  rhs.head = nullptr;
+  BinarySearchTreeSmart temp(std::move(rhs));
+  swap(temp);
   return *this;
 };
 
@@ -68,28 +68,11 @@ void BinarySearchTreeSmart::insertNode(std::unique_ptr<Node>* ptr, int n) {
 
 void BinarySearchTreeSmart::insert(int n) { insertNode(&head, n); }
 
-bool BinarySearchTreeSmart::foundInList(Node* ptr, int n) const {
-  if (ptr == nullptr) {
-    return false;
-  } else if (ptr->val == n) {
-    return true;
-  } else {
-    if (n < ptr->val) {
-      ptr = ptr->left.get();
-      return foundInList(ptr, n);
-    } else {
-      ptr = ptr->right.get();
-      return foundInList(ptr, n);
-    }
-  }
+bool BinarySearchTreeSmart::contains(int n) {
+  return foundInList(&head, &head, n, true) != std::nullopt;
 }
 
-bool BinarySearchTreeSmart::contains(int n) const {
-  return foundInList(head.get(), n);
-}
-
-void BinarySearchTreeSmart::displayTree(
-    BinarySearchTreeSmart::Order order) const {
+void BinarySearchTreeSmart::displayTree(Order order) const {
   if (!head) {
     std::cout << "Node equals nullptr\n";
     return;
@@ -97,8 +80,7 @@ void BinarySearchTreeSmart::displayTree(
   traverse(head.get(), order);
 }
 
-void BinarySearchTreeSmart::traverse(Node* ptr,
-                                     BinarySearchTreeSmart::Order order) const {
+void BinarySearchTreeSmart::traverse(Node* ptr, Order order) const {
   if (order == inOrder) {
     if (ptr) {
       traverse(ptr->left.get(), order);
@@ -147,4 +129,76 @@ void BinarySearchTreeSmart::calculateSize(Node* ptr) {
     if (ptr->val) ++elementQty;
     calculateSize(ptr->right.get());
   }
+}
+
+void BinarySearchTreeSmart::swap(BinarySearchTreeSmart& rhs) {
+  std::swap(head, rhs.head);
+}
+
+bool BinarySearchTreeSmart::empty() const { return !head; }
+
+void BinarySearchTreeSmart::clear() { destroyNodes(std::move(head)); }
+
+std::optional<BinarySearchTreeSmart::lookupResult>
+BinarySearchTreeSmart::foundInList(std::unique_ptr<Node>* parent,
+                                   std::unique_ptr<Node>* node, int n,
+                                   bool left) {
+  if ((*node) == nullptr) {
+    return std::nullopt;
+  } else if ((*node)->val == n) {
+    return std::optional<BinarySearchTreeSmart::lookupResult>{
+        {node, parent, left}};
+  } else {
+    if (n < (*node)->val) {
+      return foundInList(node, &((*node)->left), n, true);
+    } else {
+      return foundInList(node, &((*node)->right), n, false);
+    }
+  }
+}
+
+void BinarySearchTreeSmart::erase(int n) {
+  std::optional<lookupResult> s = foundInList(&head, &head, n, true);
+  if (!s) return;
+  int headVal = head->val;
+  std::unique_ptr<Node> toBeRemoved =
+      headVal == n ? std::move(head) : std::move(*(s->node));
+  std::unique_ptr<Node>* current = &toBeRemoved;
+  std::unique_ptr<Node> replacingWith = nullptr;
+  auto leftOrRight = [&]() {
+    if (s->left) {
+      (*(s->parent))->left = std::move(replacingWith);
+    } else {
+      (*(s->parent))->right = std::move(replacingWith);
+    }
+  };
+
+  if (!(*current)->right && !(*current)->left) {
+    if (headVal != n) leftOrRight();
+    toBeRemoved.reset();
+    return;
+  } else if (!(*current)->right) {
+    replacingWith = std::move((*current)->left);
+  } else {
+    if (!(*current)->right->left) {
+      replacingWith = std::move((*current)->right);
+      replacingWith->left = std::move(toBeRemoved->left);
+    } else {
+      current = &((*current)->right);
+      while ((*current)->left->left) current = &((*current)->left);
+      replacingWith = std::move((*current)->left);
+      (*current)->left = std::move(replacingWith->right);
+      replacingWith->left = std::move(toBeRemoved->left);
+      replacingWith->right = std::move(toBeRemoved->right);
+    }
+  }
+
+  if (headVal != n)
+    leftOrRight();
+  else
+    head = std::move(replacingWith);
+
+  toBeRemoved->left.reset();
+  toBeRemoved->right.reset();
+  toBeRemoved.reset();
 }

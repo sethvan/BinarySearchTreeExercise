@@ -7,6 +7,7 @@
 #include <memory>
 #include <utility>
 
+#include "../Order.hpp"
 #include "Node.hpp"
 
 template <typename K, typename V>
@@ -37,9 +38,6 @@ class RedBlackTree {
     std::pair<const K&, V&> operator*();
     std::unique_ptr<std::pair<const K&, V&>> operator->();
   };
-
- public:
-  enum Order { inOrder, preOrder, postOrder, elementsOnly };
 
  private:
   Node<K, V>* root;
@@ -87,6 +85,7 @@ class RedBlackTree {
   size_t size() const;
   auto begin() -> Iterator;
   auto end() -> Iterator;
+  auto find(const K& key) -> Iterator;
 };
 
 template <typename K, typename V>
@@ -333,7 +332,7 @@ int RedBlackTree<K, V>::calculateHeight(Node<K, V>* node) const {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::displayTree(RedBlackTree<K, V>::Order order) const {
+void RedBlackTree<K, V>::displayTree(Order order) const {
   if (!root) {
     std::cout << "Node equals nullptr\n";
     return;
@@ -342,8 +341,7 @@ void RedBlackTree<K, V>::displayTree(RedBlackTree<K, V>::Order order) const {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::traverse(Node<K, V>* ptr,
-                                  RedBlackTree<K, V>::Order order) const {
+void RedBlackTree<K, V>::traverse(Node<K, V>* ptr, Order order) const {
   // needs adjustment for non-int types
   if (order == inOrder) {
     if (ptr) {
@@ -605,6 +603,11 @@ template <typename K, typename V>
 void RedBlackTree<K, V>::swap(RedBlackTree<K, V>& rhs) noexcept {
   std::swap(root, rhs.root);
   std::swap(treeSize, rhs.treeSize);
+}
+
+template <typename K, typename V>
+auto RedBlackTree<K, V>::find(const K& key) -> Iterator {
+  return Iterator(findKey(root, key), root);
 }
 
 /***************************Iterator methods*****************************/

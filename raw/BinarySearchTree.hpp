@@ -4,6 +4,8 @@
 #include <optional>
 #include <string>
 
+#include "../Order.hpp"
+
 class BinarySearchTree {
   struct Node {
     int val;
@@ -17,9 +19,6 @@ class BinarySearchTree {
     bool left;
   };
 
- public:
-  enum Order { inOrder, preOrder, postOrder, elementsOnly };
-
  private:
   Node* head;
   void insertNode(Node** ptr, int n);
@@ -30,6 +29,7 @@ class BinarySearchTree {
   void copyTree(Node* rhsHead);
   void calculateSize(Node* ptr);
   int elementQty{};
+  void swap(BinarySearchTree& rhs);
 
  public:
   BinarySearchTree() { head = nullptr; }
